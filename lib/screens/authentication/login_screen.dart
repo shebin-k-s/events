@@ -1,6 +1,3 @@
-
-
-
 import 'package:events/core/constants/constants.dart';
 import 'package:events/screens/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
