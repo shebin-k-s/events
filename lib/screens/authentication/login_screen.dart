@@ -1,6 +1,6 @@
 import 'package:events/application/authentication/bloc/auth_bloc.dart';
 import 'package:events/core/constants/constants.dart';
-import 'package:events/screens/authentication/signup_screen.dart';
+import 'package:events/screens/authentication/signup_screen1.dart';
 import 'package:events/screens/widgets/custom_elevated_button.dart';
 import 'package:events/screens/widgets/custom_text.dart';
 import 'package:events/screens/widgets/custom_text_formfield.dart';
@@ -11,8 +11,8 @@ class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
   TextEditingController firstnameController =
-      TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+      TextEditingController(text: "wetwr");
+  TextEditingController passwordController = TextEditingController(text: "qweq");
 
   final _formkey = GlobalKey<FormState>();
 
@@ -29,7 +29,7 @@ class LoginScreen extends StatelessWidget {
         if (state is LoginSuccess) {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (ctx) =>  SignupScreen(),
+              builder: (ctx) =>  SignupScreen1(),
             ),
           );
         } else if (state is LoginFailure) {
@@ -125,7 +125,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: (){
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SignupScreen()));
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SignupScreen1()));
                           },
                           child: CustomText(
                             text: "Sign up",

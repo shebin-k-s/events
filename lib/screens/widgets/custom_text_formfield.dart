@@ -6,13 +6,13 @@ class CustomTextFormField extends StatelessWidget {
     required this.textController,
     required this.hintText,
     this.prefixIcon,
-    this.prefixIconColor,
+    this.prefixIconColor = Colors.grey,
     this.prefixIconSize,
     required this.errorText,
-    this.focusedBorderColor,
-    this.borderWidth,
-    this.borderColor,
-    this.borderRadius,
+    this.focusedBorderColor = Colors.purple,
+    this.borderWidth = 1,
+    this.borderColor = Colors.blue,
+    this.borderRadius = 15,
     this.obscureText = false,
   });
 
