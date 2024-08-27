@@ -11,8 +11,8 @@ class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
   TextEditingController firstnameController =
-      TextEditingController(text: "ssss");
-  TextEditingController passwordController = TextEditingController(text: "sss");
+      TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   final _formkey = GlobalKey<FormState>();
 
@@ -29,7 +29,7 @@ class LoginScreen extends StatelessWidget {
         if (state is LoginSuccess) {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (ctx) => const SignupScreen(),
+              builder: (ctx) =>  SignupScreen(),
             ),
           );
         } else if (state is LoginFailure) {
@@ -91,7 +91,51 @@ class LoginScreen extends StatelessWidget {
                       label: state is AuthLoading ? "Loading..." : "Submit",
                       labelColor: Colors.white,
                       labelSize: 16,
-                    )
+                    ),
+                    SizedBox(height: 30),
+                    // RichText(
+                    //   text: TextSpan(
+                    //     style: DefaultTextStyle.of(context).style,
+                    //     children: [
+                    //       TextSpan(
+                    //         text: "Don't have an account? ",
+                    //         style: TextStyle(
+                    //           fontSize: 14,
+                    //           fontWeight: FontWeight.w400,
+                    //           color: Colors.black,
+                    //         ),
+                    //       ),
+                    //       TextSpan(
+                    //         text: "Sign up",
+                    //         style: TextStyle(
+                    //           fontSize: 14,
+                    //           fontWeight: FontWeight.w500,
+                    //           color: Colors.blue,
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CustomText(
+                          text: "Don't have an account? ",
+                          fontSize: 14,
+                        ),
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SignupScreen()));
+                          },
+                          child: CustomText(
+                            text: "Sign up",
+                            fontSize: 14,
+                            fontweight: FontWeight.w500,
+                            fontColor: Colors.blue,
+                          ),
+                        )
+                      ],
+                    ),
                   ],
                 )),
           ),
