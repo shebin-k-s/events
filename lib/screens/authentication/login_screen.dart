@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:events/application/authentication/bloc/auth_bloc.dart';
 import 'package:events/core/constants/constants.dart';
+import 'package:events/screens/authentication/otp_screen.dart';
 import 'package:events/screens/authentication/signup_screen.dart';
 import 'package:events/screens/widgets/custom_elevated_button.dart';
 import 'package:events/screens/widgets/custom_text.dart';
@@ -11,103 +14,104 @@ class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
   TextEditingController firstnameController =
-      TextEditingController(text: "ssss");
-  TextEditingController passwordController = TextEditingController(text: "sss");
+      TextEditingController(text: " john");
+  TextEditingController passwordController =
+      TextEditingController(text: " securepassword123");
 
   final _formkey = GlobalKey<FormState>();
 
-  final AuthBloc authBloc = AuthBloc();
-
   @override
   Widget build(BuildContext context) {
-    print("build...");
-    return BlocConsumer(
-      bloc: authBloc,
-      listenWhen: (previous, current) => current is AuthActionState,
-      // buildWhen: (previous, current) => current is! AuthActionState,
+    log("build...");
+    return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is LoginSuccess) {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (ctx) => const SignupScreen(),
+              builder: (ctx) => OtpScreen(),
             ),
           );
         } else if (state is LoginFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text("error"),
+              content: Text(state.error),
             ),
           );
         }
       },
-      builder: (context, state) {
-        return Scaffold(
-          body: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-            ),
-            child: Form(
-                key: _formkey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CustomText(
-                      text: 'Login',
-                      fontSize: 32,
-                      fontweight: FontWeight.bold,
-                      fontColor: Colors.blue,
-                    ),
-                    kTextFieldHeight,
-                    CustomTextFormField(
-                      textController: firstnameController,
-                      hintText: 'First Name',
-                      prefixIcon: Icons.person,
-                      prefixIconColor: Colors.red,
-                      errorText: 'Enter your first name',
-                      focusedBorderColor: Colors.green,
-                      borderColor: Colors.red,
-                      borderWidth: 2,
-                      borderRadius: 15,
-                    ),
-                    kTextFieldHeight,
-                    CustomTextFormField(
-                      textController: passwordController,
-                      hintText: 'Password',
-                      obscureText: true,
-                      prefixIcon: Icons.lock,
-                      prefixIconColor: Colors.red,
-                      errorText: 'Enter your password',
-                      focusedBorderColor: Colors.green,
-                      borderColor: Colors.red,
-                      borderWidth: 2,
-                      borderRadius: 15,
-                    ),
-                    kTextFieldHeight,
-                    CustomElevatedButton(
-                      height: 50,
-                      width: 150,
-                      onPressed: state is AuthLoading ? () {} : _submitForm,
-                      backgroundColor: Colors.blue,
-                      label: state is AuthLoading ? "Loading..." : "Submit",
-                      labelColor: Colors.white,
-                      labelSize: 16,
-                    )
-                  ],
-                )),
+      child: Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
           ),
-        );
-      },
+          child: Form(
+              key: _formkey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomText(
+                    text: 'Login',
+                    fontSize: 32,
+                    fontweight: FontWeight.bold,
+                    fontColor: Colors.blue,
+                  ),
+                  kTextFieldHeight,
+                  CustomTextFormField(
+                    textController: firstnameController,
+                    hintText: 'First Name',
+                    prefixIcon: Icons.person,
+                    prefixIconColor: Colors.red,
+                    errorText: 'Enter your first name',
+                    focusedBorderColor: Colors.green,
+                    borderColor: Colors.red,
+                    borderWidth: 2,
+                    borderRadius: 15,
+                  ),
+                  kTextFieldHeight,
+                  CustomTextFormField(
+                    textController: passwordController,
+                    hintText: 'Password',
+                    obscureText: true,
+                    prefixIcon: Icons.lock,
+                    prefixIconColor: Colors.red,
+                    errorText: 'Enter your password',
+                    focusedBorderColor: Colors.green,
+                    borderColor: Colors.red,
+                    borderWidth: 2,
+                    borderRadius: 15,
+                  ),
+                  kTextFieldHeight,
+                  BlocBuilder<AuthBloc, AuthState>(
+                    builder: (context, state) {
+                      log('button rebuild');
+                      return CustomElevatedButton(
+                        height: 50,
+                        width: 150,
+                        onPressed: state is AuthLoading
+                            ? () {}
+                            : () => _submitForm(context),
+                        backgroundColor: Colors.blue,
+                        label: state is AuthLoading ? "Loading..." : "Submit",
+                        labelColor: Colors.white,
+                        labelSize: 16,
+                      );
+                    },
+                  )
+                ],
+              )),
+        ),
+      ),
     );
   }
 
-  void _submitForm() {
+  void _submitForm(BuildContext context) {
     if (_formkey.currentState!.validate()) {
-      authBloc.add(
-        LoginEvent(
-          firstname: firstnameController.text,
-          password: passwordController.text,
-        ),
-      );
+      context.read<AuthBloc>().add(
+            LoginEvent(
+              firstname: firstnameController.text,
+              password: passwordController.text,
+            ),
+          );
     }
   }
 }
