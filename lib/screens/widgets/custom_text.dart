@@ -46,4 +46,6 @@ class CustomText extends StatelessWidget {
       textAlign: textAlign,
     );
   }
+
 }
+
