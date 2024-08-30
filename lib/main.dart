@@ -1,3 +1,5 @@
+import 'package:events/screens/authentication/login_screen.dart';
+import 'package:events/screens/profile/profile_screen.dart';
 import 'package:events/screens/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -11,10 +13,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        primaryColor: Colors.white
-      ),
-      home: SplashScreen(),
+      theme: ThemeData(primaryColor: Colors.white),
+      // home: LoginScreen(),
+      home: ProfileScreen(),
     );
   }
 }
