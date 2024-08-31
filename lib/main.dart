@@ -1,4 +1,5 @@
 import 'package:events/screens/authentication/login_screen.dart';
+import 'package:events/screens/edit_profile/edit_profile_screen.dart';
 import 'package:events/screens/profile/profile_screen.dart';
 import 'package:events/screens/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(primaryColor: Colors.white),
       // home: LoginScreen(),
-      home: ProfileScreen(),
+      // home: ProfileScreen(),
+      home: EditProfileScreen(),
     );
   }
 }

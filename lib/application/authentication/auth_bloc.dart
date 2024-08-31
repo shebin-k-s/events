@@ -28,7 +28,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
 
       log(response.data);
-
+ 
       if (response.statusCode == 200) {
         log("Login success");
         emit(LoginSuccess('Login Successful'));
