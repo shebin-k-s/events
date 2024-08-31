@@ -1,4 +1,5 @@
 import 'package:events/core/constants/constants.dart';
+import 'package:events/screens/edit_profile/edit_profile_screen.dart';
 import 'package:events/screens/profile/widgets/profile_item_tile.dart';
 import 'package:events/screens/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -7,10 +8,10 @@ class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
 
   final Widget kHeight = SizedBox(height: 10);
-  
 
   @override
   Widget build(BuildContext context) {
+   
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -44,7 +45,11 @@ class ProfileScreen extends StatelessWidget {
                 itemBuilder: (context, index) => ProfileItemTile(
                   icon: profileItems[index]["icon"],
                   label: profileItems[index]["label"],
-                  onTap: profileItems[index]["onTap"],
+                  // onTap: profileItems[index]["onTap"],
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => profileItems[index]["goTo"]));
+                  },
                 ),
                 separatorBuilder: (context, index) => Divider(height: 10),
                 itemCount: profileItems.length,

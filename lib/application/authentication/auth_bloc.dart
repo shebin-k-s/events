@@ -18,25 +18,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     try {
       log("Logging in...");
-      
+
       final response = await Dio().post(
-        "http://10.0.2.2/customer/login", // Adjusted URL
-        // data: {
-        //   'firstname': event.firstname,
-        //   'password': event.password,
-        // },  
+        "http://192.168.206.15:80/customer/login", // Adjusted URL
+        data: {
+          'firstname': event.firstname,
+          'password': event.password,
+        },
       );
 
       log(response.data);
- 
+
       if (response.statusCode == 200) {
         log("Login success");
         emit(LoginSuccess('Login Successful'));
       } else {
-        log("LSomething went wrong");
+        log("Something went wrong");
         emit(LoginFailure('Login Failed'));
       }
-    }on DioException catch (e) {
+    } on DioException catch (e) {
       log("Login error: $e");
       log("Login error: ${e.response?.statusCode}");
       emit(LoginFailure('An error occurred: $e'));

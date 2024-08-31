@@ -16,8 +16,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(primaryColor: Colors.white),
       // home: LoginScreen(),
-      // home: ProfileScreen(),
-      home: EditProfileScreen(),
+      home: ProfileScreen(),
+      // home: EditProfileScreen(),
     );
   }
 }
