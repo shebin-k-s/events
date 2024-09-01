@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:events/application/authentication/auth_bloc.dart';
 import 'package:events/core/constants/constants.dart';
 import 'package:events/screens/home/home_screen.dart';
@@ -18,7 +20,9 @@ class OtpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
+      listenWhen: (previous, current) => current is AuthActionState,
       listener: (context, state) {
+        log('Otp listen build');
         if (state is OtpVerificationSuccess) {
           Navigator.of(context).push(
             MaterialPageRoute(
@@ -48,24 +52,31 @@ class OtpScreen extends StatelessWidget {
                 kTextFieldHeight,
                 CustomTextFormField(
                   textController: contactNoController,
-                  hintText: 'Contact No',
+                  labelText: 'Contact No',
                   errorText: 'Enter the contact No',
+                  prefixIcon: Icons.phone,
                 ),
                 kTextFieldHeight,
                 CustomTextFormField(
                   textController: otpController,
-                  hintText: 'Otp',
+                  labelText: 'Otp',
                   errorText: 'Enter the OTP',
+                  prefixIcon: Icons.password,
                 ),
                 kTextFieldHeight,
-                CustomElevatedButton(
-                  height: 50,
-                  width: 150,
-                  onPressed: () => _submitForm(context),
-                  backgroundColor: Colors.blue,
-                  label: 'Submit',
-                  labelColor: Colors.white,
-                  labelSize: 16,
+                BlocBuilder<AuthBloc, AuthState>(
+                  builder: (context, state) {
+                    log('otp button rebuild');
+                    return CustomElevatedButton(
+                      height: 50,
+                      width: 150,
+                      onPressed: () => _submitForm(context),
+                      backgroundColor: Colors.blue,
+                      label: state is AuthLoading ? "Loading..." : "Submit",
+                      labelColor: Colors.white,
+                      labelSize: 16,
+                    );
+                  },
                 ),
               ],
             ),

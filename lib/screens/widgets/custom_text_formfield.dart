@@ -4,9 +4,9 @@ class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     super.key,
     required this.textController,
-    required this.hintText,
+    required this.labelText,
     this.prefixIcon,
-    this.prefixIconColor = Colors.grey,
+    this.prefixIconColor = Colors.blue,
     this.prefixIconSize,
     required this.errorText,
     this.focusedBorderColor = Colors.purple,
@@ -17,7 +17,7 @@ class CustomTextFormField extends StatelessWidget {
   });
 
   final TextEditingController textController;
-  final String hintText;
+  final String labelText;
   final IconData? prefixIcon;
   final Color? prefixIconColor;
   final double? prefixIconSize;
@@ -34,6 +34,7 @@ class CustomTextFormField extends StatelessWidget {
       controller: textController,
       obscureText: obscureText,
       decoration: InputDecoration(
+        labelText: labelText,
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: borderColor ?? Colors.grey,
@@ -59,7 +60,6 @@ class CustomTextFormField extends StatelessWidget {
                 size: prefixIconSize,
               )
             : null,
-        hintText: hintText,
       ),
       validator: (value) {
         if (value == null || value.isEmpty) {

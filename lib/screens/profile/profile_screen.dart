@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
 
-  final Widget kHeight = SizedBox(height: 10);
+  final Widget kHeight = const SizedBox(height: 10);
 
   @override
   Widget build(BuildContext context) {
@@ -19,18 +19,18 @@ class ProfileScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 60),
+              const SizedBox(height: 60),
               Column(
                 children: [
-                  SizedBox(width: double.infinity),
-                  CircleAvatar(
+                  const SizedBox(width: double.infinity),
+                  const CircleAvatar(
                     radius: 40,
                     child: Icon(
                       Icons.person,
                       size: 70,
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   CustomText(
                     text: "Name",
                     fontSize: 20,
@@ -38,10 +38,10 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               ListView.separated(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) => ProfileItemTile(
                   icon: profileItems[index]["icon"],
                   label: profileItems[index]["label"],
@@ -51,7 +51,7 @@ class ProfileScreen extends StatelessWidget {
                         builder: (context) => profileItems[index]["goTo"]));
                   },
                 ),
-                separatorBuilder: (context, index) => Divider(height: 10),
+                separatorBuilder: (context, index) => const Divider(height: 10),
                 itemCount: profileItems.length,
               )
             ],

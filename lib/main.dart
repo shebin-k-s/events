@@ -1,5 +1,6 @@
 import 'package:events/application/authentication/auth_bloc.dart';
 import 'package:events/screens/authentication/otp_screen.dart';
+import 'package:events/screens/edit_profile/edit_profile_screen.dart';
 
 import 'package:events/screens/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         theme: ThemeData(primaryColor: Colors.white),
-        home: OtpScreen(),
+        home: EditProfileScreen(userType: 'student',),
       ),
     );
   }
