@@ -1,5 +1,6 @@
-import 'package:events/application/authentication/bloc/auth_bloc.dart';
+import 'package:events/application/authentication/auth_bloc.dart';
 import 'package:events/screens/authentication/otp_screen.dart';
+
 import 'package:events/screens/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

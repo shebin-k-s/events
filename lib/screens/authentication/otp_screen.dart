@@ -1,4 +1,4 @@
-import 'package:events/application/authentication/bloc/auth_bloc.dart';
+import 'package:events/application/authentication/auth_bloc.dart';
 import 'package:events/core/constants/constants.dart';
 import 'package:events/screens/home/home_screen.dart';
 import 'package:events/screens/widgets/custom_elevated_button.dart';
