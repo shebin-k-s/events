@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         theme: ThemeData(primaryColor: Colors.white),
-        home: OtpScreen(),
+        home: SplashScreen(),
       ),
     );
   }

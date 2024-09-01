@@ -6,9 +6,9 @@ class User {
   String country;
   String stateId;
   String districtId;
-  String contactNo;
-  String whatsappNo;
-  String password;
+  String? contactNo;
+  String? whatsappNo;
+  String? password;
 
   User({
     required this.firstName,
@@ -18,9 +18,9 @@ class User {
     required this.country,
     required this.stateId,
     required this.districtId,
-    required this.contactNo,
-    required this.whatsappNo,
-    required this.password,
+    this.contactNo,
+    this.whatsappNo,
+    this.password,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -190,34 +190,4 @@ class Employee extends User {
         'whatsapp_no': whatsappNo,
         'password': password,
       };
-}
-
-class Other extends User {
-  Other({
-    required super.firstName,
-    required super.secondName,
-    required super.email,
-    required super.purpose,
-    required super.country,
-    required super.stateId,
-    required super.districtId,
-    required super.contactNo,
-    required super.whatsappNo,
-    required super.password,
-  });
-
-  factory Other.fromJson(Map<String, dynamic> json) {
-    return Other(
-      firstName: json['first_name'],
-      secondName: json['second_name'],
-      email: json['email'],
-      purpose: json['purpose'],
-      country: json['country'],
-      stateId: json['state_id'],
-      districtId: json['district_id'],
-      contactNo: json['contact_no'],
-      whatsappNo: json['whatsapp_no'],
-      password: json['password'],
-    );
-  }
 }
