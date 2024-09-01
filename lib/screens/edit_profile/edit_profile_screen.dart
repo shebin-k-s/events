@@ -51,42 +51,46 @@ class EditProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _controllers = _initControllers();
-    
+
     final controllerEntries = _controllers.entries.toList();
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Profile'),
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
-            child: ListView.separated(
-              itemBuilder: (context, index) {                
-                if (index < _controllers.length) {
-                  final entry = controllerEntries[index];
-                  return CustomTextFormField(
-                    textController: entry.value,
-                    labelText: entry.key,
-                    errorText: 'Please enter ${entry.key}',
-                  );
-                } else {
-                  return CustomElevatedButton(
-                    height: 50,
-                    width: 200,
-                    onPressed: () {},
-                    backgroundColor: Colors.blue,
-                    label: "Save Changes",
-                    labelColor: Colors.white,
-                    labelSize: 16,
-                  );
-                }
-              },
-              separatorBuilder: (context, index) => kTextFieldHeight,
-              itemCount: _controllers.length + 1,
-            ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: ListView.separated(
+            itemBuilder: (context, index) {
+              if (index < _controllers.length) {
+                final entry = controllerEntries[index];
+                return CustomTextFormField(
+                  textController: entry.value,
+                  labelText: entry.key,
+                  errorText: 'Please enter ${entry.key}',
+                );
+              } else {
+                return CustomElevatedButton(
+                  height: 50,
+                  width: 200,
+                  onPressed: () {
+                    if (_formKey.currentState?.validate() ?? false) {
+                      final formData = _controllers.map(
+                          (key, controller) => MapEntry(key, controller.text));
+                      print("Form Data: $formData");
+                    }
+                  },
+                  backgroundColor: Colors.blue,
+                  label: "Save Changes",
+                  labelColor: Colors.white,
+                  labelSize: 16,
+                );
+              }
+            },
+            separatorBuilder: (context, index) => kTextFieldHeight,
+            itemCount: _controllers.length + 1,
           ),
         ),
       ),
