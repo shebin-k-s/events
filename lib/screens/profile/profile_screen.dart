@@ -15,7 +15,8 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _profileBloc.add(FetchProfileInfoEvent());
+    // _profileBloc.add(FetchProfileInfoEvent());
+    context.read<ProfileBloc>().add(FetchProfileInfoEvent());
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -40,6 +41,7 @@ class ProfileScreen extends StatelessWidget {
                         current is FetchProfileSuccessState,
                     builder: (context, state) {
                       if (state is FetchProfileSuccessState) {
+                        print("object..........");
                         return CustomText(
                           text: state.profileDataModel.firstName,
                           fontSize: 20,
@@ -59,10 +61,9 @@ class ProfileScreen extends StatelessWidget {
                 itemBuilder: (context, index) => ProfileItemTile(
                   icon: profileItems[index]["icon"],
                   label: profileItems[index]["label"],
-                  // onTap: profileItems[index]["onTap"],
                   onTap: () {
-                    // Navigator.of(context).push(MaterialPageRoute(
-                    //     builder: (context) => profileItems[index]["goTo"]));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => profileItems[index]["goTo"]));
                   },
                 ),
                 separatorBuilder: (context, index) => const Divider(height: 10),

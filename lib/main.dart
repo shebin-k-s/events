@@ -26,8 +26,6 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         theme: ThemeData(primaryColor: Colors.white),
         home: SplashScreen(),
-        // home: SplashScreen(),
-
       ),
     );
   }
