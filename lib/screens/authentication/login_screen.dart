@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:events/application/authentication/auth_bloc.dart';
+import 'package:events/application/profile/profile_bloc.dart';
 import 'package:events/core/constants/constants.dart';
 import 'package:events/screens/authentication/signup_screen1.dart';
 import 'package:events/screens/home/home_screen.dart';
@@ -14,8 +15,10 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
-  TextEditingController firstnameController = TextEditingController(text: "ddd");
-  TextEditingController passwordController = TextEditingController(text: "ddd");
+  final TextEditingController firstnameController =
+      TextEditingController(text: 'mes');
+  final TextEditingController passwordController =
+      TextEditingController(text: 'secure123');
 
   final _formkey = GlobalKey<FormState>();
 
@@ -28,7 +31,7 @@ class LoginScreen extends StatelessWidget {
         if (state is LoginSuccess) {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
-              builder: (ctx) => HomeScreen(),
+              builder: (ctx) => const HomeScreen(),
             ),
           );
         } else if (state is LoginFailure) {
@@ -72,19 +75,19 @@ class LoginScreen extends StatelessWidget {
                   ),
                   kTextFieldHeight,
                   BlocBuilder<AuthBloc, AuthState>(
+                    buildWhen: (previous, current) => current is AuthLoading || previous is AuthLoading,
                     builder: (context, state) {
-                      log('login button rebuild');
+                      final isLoading = state is AuthLoading ;
                       return CustomElevatedButton(
                         height: 50,
                         width: 150,
-                        onPressed: state is AuthLoading
-                            ? () {}
-                            : () => _submitForm(context),
+                        onPressed:
+                            isLoading ? () {} : () => _submitForm(context),
                         backgroundColor: Colors.blue,
                         label: "Submit",
                         labelColor: Colors.white,
                         labelSize: 16,
-                        childWidget: state is AuthLoading
+                        childWidget: isLoading
                             ? LoadingAnimationWidget.staggeredDotsWave(
                                 color: Colors.white,
                                 size: 40,
@@ -93,7 +96,7 @@ class LoginScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

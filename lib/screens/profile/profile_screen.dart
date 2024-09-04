@@ -1,5 +1,4 @@
 import 'package:events/core/constants/constants.dart';
-import 'package:events/screens/edit_profile/edit_profile_screen.dart';
 import 'package:events/screens/profile/widgets/profile_item_tile.dart';
 import 'package:events/screens/widgets/custom_text.dart';
 import 'package:flutter/material.dart';

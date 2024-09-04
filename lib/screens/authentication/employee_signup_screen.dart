@@ -12,10 +12,11 @@ class EmployeeSignupScreen extends StatelessWidget {
   EmployeeSignupScreen({super.key, required this.employee});
   final List<String> accountTypes = ['Student', 'Employee', 'Other'];
 
-  TextEditingController _companyNameController = TextEditingController();
-  TextEditingController _companyLocationController = TextEditingController();
-  TextEditingController _companyIdController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _companyNameController = TextEditingController();
+  final TextEditingController _companyLocationController =
+      TextEditingController();
+  final TextEditingController _companyIdController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   final _formkey = GlobalKey<FormState>();
 

@@ -12,8 +12,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class OtpScreen extends StatelessWidget {
   OtpScreen({super.key});
 
-  TextEditingController contactNoController = TextEditingController();
-  TextEditingController otpController = TextEditingController();
+  final TextEditingController contactNoController = TextEditingController();
+  final TextEditingController otpController = TextEditingController();
 
   final _formkey = GlobalKey<FormState>();
 

@@ -5,16 +5,17 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:events/domain/user/user_model.dart';
 import 'package:meta/meta.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final _dio = Dio();
-  final String _loginUrl = "http://192.168.185.24:8080/customer/login";
-  final String _signupUrl = "http://192.168.185.24:8080/customer/signup";
+  final String _loginUrl = "http://192.168.79.24:8080/customer/login";
+  final String _signupUrl = "http://192.168.79.24:8080/customer/signup";
   final String _otpVerificationUrl =
-      "http://192.168.185.24:8080/customer/validate-otp";
+      "http://192.168.79.24:8080/customer/validate-otp";
 
   AuthBloc() : super(AuthInitial()) {
     on<LoginEvent>(loginEvent);
@@ -39,8 +40,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
       print(response);
 
-      _handleResponse(response, emit, () => LoginSuccess(),
-          (message) => LoginFailure(message));
+      await _handleResponse(response, emit, () {
+        return LoginSuccess();
+      }, (message) => LoginFailure(message));
     } on DioException catch (e) {
       print(e);
 
@@ -63,7 +65,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       log("ki");
       log(response.data.toString());
 
-      _handleResponse(response, emit, () => SignupSuccess(),
+      await _handleResponse(response, emit, () => SignupSuccess(),
           (message) => SignupFailure(message));
     } on DioException catch (e) {
       log(e.toString());
@@ -84,7 +86,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
       print(response.data);
 
-      _handleResponse(response, emit, () => SignupSuccess(),
+      await _handleResponse(response, emit, () => SignupSuccess(),
           (message) => SignupFailure(message));
     } on DioException catch (e) {
       emit(SignupFailure('An error occurred'));
@@ -106,7 +108,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       log("lllll");
       print(response.data);
 
-      _handleResponse(response, emit, () => SignupSuccess(),
+      await _handleResponse(response, emit, () => SignupSuccess(),
           (message) => SignupFailure(message));
     } on DioException catch (e) {
       log(e.toString());
@@ -123,29 +125,32 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
     try {
       log('response');
+      emit(AuthLoading());
 
       final response = await _dio.post(
         _otpVerificationUrl,
         data: formData,
       );
       print(response);
-      _handleResponse(response, emit, () => OtpVerificationSuccess(),
+      await _handleResponse(response, emit, () => OtpVerificationSuccess(),
           (message) => OtpVerificationFailure(message));
     } on DioException catch (e) {
       emit(SignupFailure('An error occurred'));
     }
   }
 
-  void _handleResponse(
+  Future<void> _handleResponse(
     Response response,
     Emitter<AuthState> emit,
     AuthState Function() successStateCreator,
     AuthState Function(String) failureStateCreator,
-  ) {
+  ) async {
     final status = response.data['status'] ?? 'unknown';
     final message = response.data['message'] ?? 'Unknown error occurred';
 
     if (status == 'success') {
+      final prefs = await SharedPreferences.getInstance();
+
       emit(successStateCreator());
     } else {
       emit(failureStateCreator(message));

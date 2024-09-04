@@ -1,5 +1,5 @@
 import 'package:events/application/authentication/auth_bloc.dart';
-import 'package:events/screens/authentication/otp_screen.dart';
+import 'package:events/application/profile/profile_bloc.dart';
 import 'package:events/screens/edit_profile/edit_profile_screen.dart';
 
 import 'package:events/screens/splash/splash_screen.dart';
@@ -20,10 +20,14 @@ class MyApp extends StatelessWidget {
         BlocProvider<AuthBloc>(
           create: (context) => AuthBloc(),
         ),
+        BlocProvider<ProfileBloc>(
+          create: (context) => ProfileBloc(),
+        ),
       ],
       child: MaterialApp(
         theme: ThemeData(primaryColor: Colors.white),
         home: EditProfileScreen(userType: 'student',),
+        // home: SplashScreen(),
       ),
     );
   }
