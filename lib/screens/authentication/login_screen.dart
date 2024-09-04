@@ -2,6 +2,7 @@ import 'package:events/application/authentication/auth_bloc.dart';
 import 'package:events/core/constants/constants.dart';
 import 'dart:developer';
 import 'package:events/screens/authentication/otp_screen.dart';
+import 'package:events/screens/profile/profile_screen.dart';
 import 'package:events/screens/widgets/custom_elevated_button.dart';
 import 'package:events/screens/widgets/custom_text.dart';
 import 'package:events/screens/widgets/custom_text_formfield.dart';
@@ -12,9 +13,9 @@ class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
   TextEditingController firstnameController =
-      TextEditingController(text: " john");
+      TextEditingController(text: "ajs");
   TextEditingController passwordController =
-      TextEditingController(text: " securepassword123");
+      TextEditingController(text: "123456789");
 
   final _formkey = GlobalKey<FormState>();
 
@@ -26,7 +27,7 @@ class LoginScreen extends StatelessWidget {
         if (state is LoginSuccess) {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (ctx) => OtpScreen(),
+              builder: (ctx) => ProfileScreen(),
             ),
           );
         } else if (state is LoginFailure) {
@@ -81,7 +82,7 @@ class LoginScreen extends StatelessWidget {
                   kTextFieldHeight,
                   BlocBuilder<AuthBloc, AuthState>(
                     builder: (context, state) {
-                      log('button rebuild');
+                      print('button rebuild');
                       return CustomElevatedButton(
                         height: 50,
                         width: 150,

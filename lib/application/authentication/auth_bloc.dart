@@ -2,16 +2,23 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
+import 'package:events/core/constants/constants.dart';
 import 'package:events/domain/user/user_model.dart';
 import 'package:meta/meta.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
+final cookieJar = CookieJar();
+final CookieManager cm = CookieManager(cookieJar);
+
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final _dio = Dio();
-  final String _loginUrl = "http://192.168.197.24:8080/customer/login";
+
+  final String _loginUrl = "$baseUrl/customer/login";
   final String _signupUrl = "http://192.168.197.24:8080/customer/signup";
   final String _otpVerificationUrl =
       "http://192.168.197.24:8080/customer/validate-otp";
@@ -27,8 +34,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   FutureOr<void> loginEvent(LoginEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
 
-    try {
+    // Add CookieManager interceptor
+    _dio.interceptors.add(cm);
 
+    try {
       final formData = FormData.fromMap({
         'first_name': event.firstname,
         'password': event.password,
@@ -38,6 +47,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         _loginUrl,
         data: formData,
       );
+      log(response.toString());
 
       _handleResponse(response, emit, () => LoginSuccess(),
           (message) => LoginFailure(message));
