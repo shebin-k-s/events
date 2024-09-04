@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:events/application/authentication/auth_bloc.dart';
 import 'package:events/core/constants/api_endpoints.dart';
 import 'package:events/core/constants/constants.dart';
@@ -15,38 +14,53 @@ part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final _dio = Dio();
+  String id = '';
+  late ProfileDataModel profile;
   ProfileBloc() : super(ProfileInitial()) {
     on<FetchProfileInfoEvent>(fetchProfileInfoEvent);
+    on<UpdateProfileEvent>(updateProfileEvent);
   }
 
   FutureOr<void> fetchProfileInfoEvent(
       FetchProfileInfoEvent event, Emitter<ProfileState> emit) async {
     try {
-      // final formData = FormData.fromMap({
-      //   'auth_token': "ORgUWLUIl9P_cJrVAdXQ5SvUxWcCb-7w",
-      // });
-      cm.toString();
-      _dio.interceptors.add(cm);
+      cookieManager.toString();
+      _dio.interceptors.add(cookieManager);
       final response = await _dio.post(
         baseUrl + ApiEndpoints.profile,
-        // "http://192.168.29.15:8080/customer/user-profile?auth_key=561q2nomg4YvS8hsJrVMMzxmokuf0nrG",
-        // queryParameters: {
-        //   "auth_token": "ORgUWLUIl9P_cJrVAdXQ5SvUxWcCb-7w",
-        // },
-        // data: formData
       );
-      log(response.data.toString());
-      if (response != null) {
-        final ProfileDataModel profileDataModel =
-            ProfileDataModel.fromJson(response.data);
-        emit(FetchProfileSuccessState(profileDataModel: profileDataModel));
-      }
+      log(response.data["data"].toString());
+      final ProfileDataModel profileDataModel =
+          ProfileDataModel.fromJson(response.data["data"]);
 
-      // _handleResponse(response, emit, () => LoginSuccess(),
-      //     (message) => LoginFailure(message));
+      profile = profileDataModel;
+
+      id = profileDataModel.id.toString();
+      emit(FetchProfileSuccessState(profileDataModel: profileDataModel));
     } on DioException catch (e) {
       log("Error on fetch profle: $e");
       // emit(LoginFailure('An error occurred: $e'));
+    }
+  }
+
+  FutureOr<void> updateProfileEvent(
+      UpdateProfileEvent event, Emitter<ProfileState> emit) async {
+    try {
+      print(event.updateProfile);
+      final formData = FormData.fromMap(event.updateProfile);
+      cookieManager.toString();
+      _dio.interceptors.add(cookieManager);
+      final response = await _dio.post(
+        baseUrl + ApiEndpoints.updateProfile + '/${id}',
+        data: formData,
+      );
+      log(response.data.toString());
+
+      emit(UpdateProfileSuccess());
+      emit(FetchProfileSuccessState(profileDataModel: profile));
+    } on DioException catch (e) {
+      log("Error on fetch profle: $e");
+      emit(UpdateProfileFailure());
     }
   }
 }

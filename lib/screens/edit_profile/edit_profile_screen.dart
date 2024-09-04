@@ -11,9 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EditProfileScreen extends StatelessWidget {
-  final String userType;
-
-  EditProfileScreen({super.key, required this.userType});
+  EditProfileScreen({super.key});
 
   final _formKey = GlobalKey<FormState>();
 
@@ -24,108 +22,123 @@ class EditProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     context.read<ProfileBloc>().add(FetchProfileInfoEvent());
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Edit Profile'),
-        backgroundColor: const Color.fromARGB(255, 229, 201, 146),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(
-          left: 24,
-          right: 24,
+    return BlocListener<ProfileBloc, ProfileState>(
+      listenWhen: (previous, current) => current is ProfileActionState,
+      listener: (context, state) {
+        if (state is UpdateProfileSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Successfully updated"),
+            ),
+          );
+        } else if(state is UpdateProfileFailure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Update failed"),
+            ),
+          );
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Edit Profile'),
+          backgroundColor: const Color.fromARGB(255, 229, 201, 146),
         ),
-        child: Form(
-          key: _formKey,
-          child: BlocBuilder<ProfileBloc, ProfileState>(
-            builder: (context, state) {
-              if (state is FetchProfileSuccessState) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else if (state is FetchProfileSuccessState) {
-                final profile = state.profileDataModel;
-                final fields = {
-                  'First Name': profile.firstName,
-                  'Second Name': profile.secondName,
-                  'Email': profile.email,
-                  'Purpose': profile.purpose,
-                  'College': profile.college,
-                  'University': profile.university,
-                  'Department': profile.deptName,
-                  'Admission No': profile.admissionNo,
-                  'College Reg No': profile.clgRegno,
-                  'Company Name': profile.companyName,
-                  'Company ID': profile.companyId,
-                  'Company Location': profile.companyLocation,
-                  'Country': profile.country.toString(),
-                  'State ID': profile.stateId.toString(),
-                  'District ID': profile.districtId.toString(),
-                  'Contact No': profile.contactNo,
-                  'WhatsApp No': profile.whatsappNo,
-                  'OTP': profile.otp,
-                  'OTP Status': profile.otpStatus,
-                  'Password Hash': profile.passwordHash,
-                  'Auth Key': profile.authKey,
-                  'Verification Token': profile.verificationToken,
-                  'Status': profile.status.toString(),
-                  'Created At': profile.createdAt.toString(),
-                  'Updated At': profile.updatedAt.toString(),
-                  'Created By': profile.createdBy.toString(),
-                  'Updated By': profile.updatedBy.toString(),
-                };
+        body: Padding(
+          padding: const EdgeInsets.only(
+            left: 24,
+            right: 24,
+          ),
+          child: Form(
+            key: _formKey,
+            child: BlocBuilder<ProfileBloc, ProfileState>(
+              buildWhen: (previous, current) => current is !ProfileActionState,
+              builder: (context, state) {
+                if (state is ProfileInitial) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (state is FetchProfileSuccessState) {
+                  final profile = state.profileDataModel;
+                  final fields = {
+                    'first_name': profile.firstName,
+                    'second_name': profile.secondName,
+                    'email': profile.email,
+                    'purpose': profile.purpose,
+                    'college': profile.college,
+                    'university': profile.university,
+                    'department': profile.deptName,
+                    'admission_no': profile.admissionNo,
+                    'college_reg_no': profile.clgRegno,
+                    'company_name': profile.companyName,
+                    'company_id': profile.companyId,
+                    'company_location': profile.companyLocation,
+                    'country': profile.country.toString(),
+                    'state_id': profile.stateId.toString(),
+                    'district_id': profile.districtId.toString(),
+                    'contact_no': profile.contactNo,
+                    'whatsapp_no': profile.whatsappNo,
+                  };
 
-                final nonNullFields = fields.entries
-                    .where(
-                      (entry) => entry.value != null && entry.value!.isNotEmpty,
-                    )
-                    .toList();
+                  final nonNullFields = fields.entries
+                      .where(
+                        (entry) =>
+                            entry.value != null && entry.value!.isNotEmpty,
+                      )
+                      .toList();
 
-                for (final entry in nonNullFields) {
-                  _controllers[entry.key] =
-                      TextEditingController(text: entry.value);
-                  _initialValues[entry.key] = entry.value!;
+                  for (final entry in nonNullFields) {
+                    _controllers[entry.key] =
+                        TextEditingController(text: entry.value);
+                    _initialValues[entry.key] = entry.value!;
+                  }
+
+                  return ListView.separated(
+                    itemCount: nonNullFields.length + 3,
+                    itemBuilder: (context, index) {
+                      if (index == 0 || index == nonNullFields.length + 2) {
+                        return const SizedBox(height: 20);
+                      } else if (index <= nonNullFields.length) {
+                        final entry = nonNullFields[index - 1];
+                        final label = entry.key
+                            .split('_')
+                            .map((word) =>
+                                word[0].toUpperCase() + word.substring(1))
+                            .join(' ');
+                        return CustomTextFormField(
+                          textController: _controllers[entry.key]!,
+                          labelText: label,
+                          errorText: 'Please enter the $label',
+                          readOnly: label == "First Name" ? true : false,
+                        );
+                      } else {
+                        return CustomElevatedButton(
+                          height: 50,
+                          width: 70,
+                          onPressed: () {
+                            _submitForm(context);
+                          },
+                          backgroundColor: Colors.blue,
+                          label: 'Save',
+                          labelColor: Colors.white,
+                          labelSize: 16,
+                        );
+                      }
+                    },
+                    separatorBuilder: (context, index) => kTextFieldHeight,
+                  );
+                } else {
+                  return const Text("err");
                 }
-
-                return ListView.separated(
-                  itemCount: nonNullFields.length + 3,
-                  itemBuilder: (context, index) {
-                    if (index == 0 || index == nonNullFields.length + 2) {
-                      return const SizedBox(height: 20);
-                    } else if (index <= nonNullFields.length) {
-                      final entry = nonNullFields[index - 1];
-                      return CustomTextFormField(
-                        textController: _controllers[entry.key]!,
-                        labelText: entry.key,
-                        errorText: 'Please enter the ${entry.key}',
-                        readOnly: false,
-                      );
-                    } else {
-                      return CustomElevatedButton(
-                        height: 50,
-                        width: 70,
-                        onPressed: () {
-                          _submitForm();
-                        },
-                        backgroundColor: Colors.blue,
-                        label: 'Save',
-                        labelColor: Colors.white,
-                        labelSize: 16,
-                      );
-                    }
-                  },
-                  separatorBuilder: (context, index) => kTextFieldHeight,
-                );
-              } else {
-                return Text("err");
-              }
-            },
+              },
+            ),
           ),
         ),
       ),
     );
   }
 
-  void _submitForm() {
+  void _submitForm(BuildContext context) {
     final updateProfile = <String, String>{};
 
     _controllers.forEach((key, controller) {
@@ -136,6 +149,7 @@ class EditProfileScreen extends StatelessWidget {
         updateProfile[key] = currentValue;
       }
     });
-    print(updateProfile);
+
+    context.read<ProfileBloc>().add(UpdateProfileEvent(updateProfile));
   }
 }

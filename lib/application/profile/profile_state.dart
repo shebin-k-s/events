@@ -5,6 +5,9 @@ sealed class ProfileState {}
 
 final class ProfileInitial extends ProfileState {}
 
+final class ProfileActionState extends ProfileState{}
+
+
 final class FetchProfileSuccessState extends ProfileState {
   final ProfileDataModel profileDataModel;
 
@@ -12,3 +15,6 @@ final class FetchProfileSuccessState extends ProfileState {
 }
 
 final class FetchProfileFailureState extends ProfileState {}
+
+final class UpdateProfileSuccess extends ProfileActionState {}
+final class UpdateProfileFailure extends ProfileActionState {}

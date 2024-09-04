@@ -15,7 +15,7 @@ part 'auth_event.dart';
 part 'auth_state.dart';
 
 final cookieJar = CookieJar();
-final CookieManager cm = CookieManager(cookieJar);
+final CookieManager cookieManager = CookieManager(cookieJar);
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final _dio = Dio();
@@ -39,7 +39,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
 
     // Add CookieManager interceptor
-    _dio.interceptors.add(cm);
+    _dio.interceptors.add(cookieManager);
 
     try {
       final formData = FormData.fromMap({
