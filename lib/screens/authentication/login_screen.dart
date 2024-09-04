@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:events/application/authentication/auth_bloc.dart';
 import 'package:events/application/profile/profile_bloc.dart';
 import 'package:events/core/constants/constants.dart';
@@ -75,9 +74,11 @@ class LoginScreen extends StatelessWidget {
                   ),
                   kTextFieldHeight,
                   BlocBuilder<AuthBloc, AuthState>(
-                    buildWhen: (previous, current) => current is AuthLoading || previous is AuthLoading,
+                    buildWhen: (previous, current) =>
+                        current is AuthLoading || previous is AuthLoading,
                     builder: (context, state) {
-                      final isLoading = state is AuthLoading ;
+                      final isLoading = state is AuthLoading;
+                      print('button rebuild');
                       return CustomElevatedButton(
                         height: 50,
                         width: 150,

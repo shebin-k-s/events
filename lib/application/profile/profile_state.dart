@@ -1,20 +1,14 @@
 part of 'profile_bloc.dart';
 
 @immutable
-sealed class ProfileState {
-  
+sealed class ProfileState {}
+
+final class ProfileInitial extends ProfileState {}
+
+final class FetchProfileSuccessState extends ProfileState {
+  final ProfileDataModel profileDataModel;
+
+  FetchProfileSuccessState({required this.profileDataModel});
 }
 
-final class ProfileInitial extends ProfileState {
-  
-}
-
-abstract class ProfileActionState extends ProfileState {}
-
-// Profile loading
-class ProfileLoaded extends ProfileState {
-  final ProfileDataModel profile;
-
-  ProfileLoaded(this.profile);
-}
-
+final class FetchProfileFailureState extends ProfileState {}

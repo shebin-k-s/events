@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 const kTextFieldHeight = SizedBox(height: 20);
 
+const String baseUrl = "http://192.168.72.15:8080";
+
 final List<Map> profileItems = [
   {
     "icon": Icons.edit,
@@ -34,6 +36,11 @@ final List<Map> profileItems = [
   {
     "icon": Icons.group,
     "label": "Added friends details",
+    "onTap": () {},
+  },
+  {
+    "icon": Icons.logout,
+    "label": "Logout",
     "onTap": () {},
   },
 ];

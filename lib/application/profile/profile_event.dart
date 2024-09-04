@@ -5,6 +5,3 @@ sealed class ProfileEvent {}
 
 
 class FetchProfileInfoEvent extends ProfileEvent{}
-
-
-class LoadProfileEvent extends ProfileEvent{}

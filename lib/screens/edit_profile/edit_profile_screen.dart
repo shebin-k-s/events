@@ -22,7 +22,7 @@ class EditProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<ProfileBloc>().add(LoadProfileEvent());
+    context.read<ProfileBloc>().add(FetchProfileInfoEvent());
 
     return Scaffold(
       appBar: AppBar(
@@ -38,12 +38,12 @@ class EditProfileScreen extends StatelessWidget {
           key: _formKey,
           child: BlocBuilder<ProfileBloc, ProfileState>(
             builder: (context, state) {
-              if (state is ProfileInitial) {
+              if (state is FetchProfileSuccessState) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
-              } else if (state is ProfileLoaded) {
-                final profile = state.profile;
+              } else if (state is FetchProfileSuccessState) {
+                final profile = state.profileDataModel;
                 final fields = {
                   'First Name': profile.firstName,
                   'Second Name': profile.secondName,
