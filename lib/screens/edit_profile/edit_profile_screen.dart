@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:events/application/profile/profile_bloc.dart';
 import 'package:events/core/constants/constants.dart';
 import 'package:events/screens/widgets/custom_elevated_button.dart';
@@ -5,6 +7,7 @@ import 'package:events/screens/widgets/custom_text_formfield.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class EditProfileScreen extends StatelessWidget {
   EditProfileScreen({super.key});
@@ -27,6 +30,9 @@ class EditProfileScreen extends StatelessWidget {
               content: Text("Successfully updated"),
             ),
           );
+          _controllers.forEach((key, controller) {
+            _initialValues[key] = controller.text;
+          });
         } else if (state is UpdateProfileFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -48,7 +54,9 @@ class EditProfileScreen extends StatelessWidget {
           child: Form(
             key: _formKey,
             child: BlocBuilder<ProfileBloc, ProfileState>(
-              buildWhen: (previous, current) => current is! ProfileActionState,
+              buildWhen: (previous, current) =>
+                  current is ProfileInitial ||
+                  current is FetchProfileSuccessState,
               builder: (context, state) {
                 if (state is ProfileInitial) {
                   return const Center(
@@ -108,16 +116,31 @@ class EditProfileScreen extends StatelessWidget {
                           readOnly: label == "First Name" ? true : false,
                         );
                       } else {
-                        return CustomElevatedButton(
-                          height: 50,
-                          width: 70,
-                          onPressed: () {
-                            _submitForm(context);
+                        return BlocBuilder<ProfileBloc, ProfileState>(
+                          buildWhen: (previous, current) =>
+                              current is ProfileUpdating ||
+                              previous is ProfileUpdating,
+                          builder: (context, state) {
+                            final isLoading = state is ProfileUpdating;
+                            print('Save button rebuild ${state}');
+                            return CustomElevatedButton(
+                              height: 50,
+                              width: 150,
+                              onPressed: isLoading
+                                  ? () {}
+                                  : () => _submitForm(context),
+                              backgroundColor: Colors.blue,
+                              label: "Save",
+                              labelColor: Colors.white,
+                              labelSize: 16,
+                              childWidget: isLoading
+                                  ? LoadingAnimationWidget.staggeredDotsWave(
+                                      color: Colors.white,
+                                      size: 40,
+                                    )
+                                  : null,
+                            );
                           },
-                          backgroundColor: Colors.blue,
-                          label: 'Save',
-                          labelColor: Colors.white,
-                          labelSize: 16,
                         );
                       }
                     },
@@ -135,6 +158,7 @@ class EditProfileScreen extends StatelessWidget {
   }
 
   void _submitForm(BuildContext context) {
+    FocusScope.of(context).unfocus();
     final updateProfile = <String, String>{};
 
     _controllers.forEach((key, controller) {
@@ -148,10 +172,10 @@ class EditProfileScreen extends StatelessWidget {
 
     if (updateProfile.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("No changes"),
-            ),
-          );
+        const SnackBar(
+          content: Text("No changes"),
+        ),
+      );
     } else {
       context.read<ProfileBloc>().add(UpdateProfileEvent(updateProfile));
     }

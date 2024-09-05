@@ -4,6 +4,7 @@ import 'package:events/screens/profile/widgets/profile_item_tile.dart';
 import 'package:events/screens/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
@@ -48,7 +49,11 @@ class ProfileScreen extends StatelessWidget {
                           fontweight: FontWeight.bold,
                         );
                       } else {
-                        return const SizedBox();
+                        return LoadingAnimationWidget.prograssiveDots(
+                          color: Colors.purple,
+                          size: 40
+
+                        );
                       }
                     },
                   ),

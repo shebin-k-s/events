@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:events/application/authentication/auth_bloc.dart';
@@ -46,6 +45,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   FutureOr<void> updateProfileEvent(
       UpdateProfileEvent event, Emitter<ProfileState> emit) async {
     try {
+      emit(ProfileUpdating());
+
+      await Future.delayed(Duration(seconds: 3));
       print(event.updateProfile);
       final formData = FormData.fromMap(event.updateProfile);
       cookieManager.toString();
@@ -57,7 +59,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       log(response.data.toString());
 
       emit(UpdateProfileSuccess());
-      emit(FetchProfileSuccessState(profileDataModel: profile));
     } on DioException catch (e) {
       log("Error on fetch profle: $e");
       emit(UpdateProfileFailure());

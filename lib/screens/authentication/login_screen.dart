@@ -78,7 +78,7 @@ class LoginScreen extends StatelessWidget {
                         current is AuthLoading || previous is AuthLoading,
                     builder: (context, state) {
                       final isLoading = state is AuthLoading;
-                      print('button rebuild');
+                      print('button rebuild ${state}');
                       return CustomElevatedButton(
                         height: 50,
                         width: 150,
