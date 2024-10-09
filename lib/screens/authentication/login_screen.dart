@@ -15,9 +15,9 @@ class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
   final TextEditingController firstnameController =
-      TextEditingController(text: 'me');
+      TextEditingController();
   final TextEditingController passwordController =
-      TextEditingController(text: 'secure123');
+      TextEditingController();
 
   final _formkey = GlobalKey<FormState>();
 

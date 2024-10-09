@@ -41,83 +41,85 @@ class EmployeeSignupScreen extends StatelessWidget {
         }
       },
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-              key: _formkey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomText(
-                    text: 'Sign Up',
-                    fontSize: 32,
-                    fontweight: FontWeight.bold,
-                    fontColor: Colors.blue,
-                  ),
-                  kTextFieldHeight,
-                  kTextFieldHeight,
-                  CustomTextFormField(
-                    textController: _companyIdController,
-                    labelText: 'Company name',
-                    prefixIcon: Icons.person,
-                    errorText: 'Enter your Company name',
-                  ),
-                  kTextFieldHeight,
-                  CustomTextFormField(
-                    textController: _companyLocationController,
-                    labelText: 'Company location',
-                    prefixIcon: Icons.person,
-                    errorText: 'Enter your Company location',
-                  ),
-                  kTextFieldHeight,
-                  CustomTextFormField(
-                    textController: _companyIdController,
-                    labelText: 'Company ID',
-                    prefixIcon: Icons.language,
-                    errorText: 'Enter your Company ID',
-                  ),
-                  kTextFieldHeight,
-                  CustomTextFormField(
-                    textController: _passwordController,
-                    labelText: 'Password',
-                    prefixIcon: Icons.lock,
-                    errorText: 'Enter your Password',
-                    obscureText: true,
-                  ),
-                  kTextFieldHeight,
-                  CustomElevatedButton(
-                    height: 50,
-                    width: 170,
-                    onPressed: () {
-                      context.read<AuthBloc>().add(
-                            EmployeeSignupEvent(
-                              employee: Employee(
-                                firstName: employee.firstName,
-                                secondName: employee.secondName,
-                                email: employee.email,
-                                purpose: employee.purpose,
-                                country: employee.country,
-                                stateId: employee.stateId,
-                                districtId: employee.districtId,
-                                contactNo: employee.contactNo ?? '123',
-                                whatsappNo: employee.whatsappNo ?? '123',
-                                password: _passwordController.text,
-                                companyId: _companyIdController.text,
-                                companyLocation:
-                                    _companyLocationController.text,
-                                companyName: _companyNameController.text,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Form(
+                key: _formkey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CustomText(
+                      text: 'Sign Up',
+                      fontSize: 32,
+                      fontweight: FontWeight.bold,
+                      fontColor: Colors.blue,
+                    ),
+                    kTextFieldHeight,
+                    kTextFieldHeight,
+                    CustomTextFormField(
+                      textController: _companyIdController,
+                      labelText: 'Company name',
+                      prefixIcon: Icons.person,
+                      errorText: 'Enter your Company name',
+                    ),
+                    kTextFieldHeight,
+                    CustomTextFormField(
+                      textController: _companyLocationController,
+                      labelText: 'Company location',
+                      prefixIcon: Icons.person,
+                      errorText: 'Enter your Company location',
+                    ),
+                    kTextFieldHeight,
+                    CustomTextFormField(
+                      textController: _companyIdController,
+                      labelText: 'Company ID',
+                      prefixIcon: Icons.language,
+                      errorText: 'Enter your Company ID',
+                    ),
+                    kTextFieldHeight,
+                    CustomTextFormField(
+                      textController: _passwordController,
+                      labelText: 'Password',
+                      prefixIcon: Icons.lock,
+                      errorText: 'Enter your Password',
+                      obscureText: true,
+                    ),
+                    kTextFieldHeight,
+                    CustomElevatedButton(
+                      height: 50,
+                      width: 170,
+                      onPressed: () {
+                        context.read<AuthBloc>().add(
+                              EmployeeSignupEvent(
+                                employee: Employee(
+                                  firstName: employee.firstName,
+                                  secondName: employee.secondName,
+                                  email: employee.email,
+                                  purpose: employee.purpose,
+                                  country: employee.country,
+                                  stateId: employee.stateId,
+                                  districtId: employee.districtId,
+                                  contactNo: employee.contactNo ?? '123',
+                                  whatsappNo: employee.whatsappNo ?? '123',
+                                  password: _passwordController.text,
+                                  companyId: _companyIdController.text,
+                                  companyLocation:
+                                      _companyLocationController.text,
+                                  companyName: _companyNameController.text,
+                                ),
                               ),
-                            ),
-                          );
-                    },
-                    backgroundColor: Colors.blue,
-                    label: "Create Account",
-                    labelColor: Colors.white,
-                    labelSize: 16,
-                  ),
-                  SizedBox(height: 30),
-                ],
+                            );
+                      },
+                      backgroundColor: Colors.blue,
+                      label: "Create Account",
+                      labelColor: Colors.white,
+                      labelSize: 16,
+                    ),
+                    SizedBox(height: 30),
+                  ],
+                ),
               ),
             ),
           ),

@@ -43,98 +43,100 @@ class StudentSignupScreen extends StatelessWidget {
         }
       },
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-              key: _formkey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomText(
-                    text: 'Sign Up',
-                    fontSize: 32,
-                    fontweight: FontWeight.bold,
-                    fontColor: Colors.blue,
-                  ),
-                  kTextFieldHeight,
-                  kTextFieldHeight,
-                  CustomTextFormField(
-                    textController: _collegeController,
-                    labelText: 'College',
-                    prefixIcon: Icons.person,
-                    errorText: 'Enter your College',
-                  ),
-                  kTextFieldHeight,
-                  CustomTextFormField(
-                    textController: _universityController,
-                    labelText: 'University',
-                    prefixIcon: Icons.person,
-                    errorText: 'Enter your University',
-                  ),
-                  kTextFieldHeight,
-                  CustomTextFormField(
-                    textController: _departmentNameController,
-                    labelText: 'Department name',
-                    prefixIcon: Icons.language,
-                    errorText: 'Enter your Department name',
-                  ),
-                  kTextFieldHeight,
-                  CustomTextFormField(
-                    textController: _collegeRegNoController,
-                    labelText: 'College register number',
-                    prefixIcon: Icons.language,
-                    errorText: 'Enter your College register number',
-                  ),
-                  kTextFieldHeight,
-                  CustomTextFormField(
-                    textController: _collegeIdPicController,
-                    labelText: 'College ID pic',
-                    prefixIcon: Icons.language,
-                    errorText: 'Enter your College ID pic',
-                  ),
-                  kTextFieldHeight,
-                  CustomTextFormField(
-                    textController: _passwordController,
-                    labelText: 'Password',
-                    prefixIcon: Icons.lock,
-                    errorText: 'Enter your Password',
-                    obscureText: true,
-                  ),
-                  kTextFieldHeight,
-                  CustomElevatedButton(
-                    height: 50,
-                    width: 170,
-                    onPressed: () {
-                      context.read<AuthBloc>().add(
-                            StudentSignupEvent(
-                              student: Student(
-                                firstName: student.firstName,
-                                secondName: student.secondName,
-                                email: student.email,
-                                purpose: student.purpose,
-                                country: student.country,
-                                stateId: student.stateId,
-                                districtId: student.districtId,
-                                contactNo: student.contactNo ?? '123',
-                                whatsappNo: student.whatsappNo ?? '123',
-                                password: _passwordController.text,
-                                clgIdPic: _collegeIdPicController.text,
-                                clgRegNo: _collegeRegNoController.text,
-                                college: _collegeController.text,
-                                deptName: _departmentNameController.text,
-                                university: _universityController.text,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Form(
+                key: _formkey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CustomText(
+                      text: 'Sign Up',
+                      fontSize: 32,
+                      fontweight: FontWeight.bold,
+                      fontColor: Colors.blue,
+                    ),
+                    kTextFieldHeight,
+                    kTextFieldHeight,
+                    CustomTextFormField(
+                      textController: _collegeController,
+                      labelText: 'College',
+                      prefixIcon: Icons.person,
+                      errorText: 'Enter your College',
+                    ),
+                    kTextFieldHeight,
+                    CustomTextFormField(
+                      textController: _universityController,
+                      labelText: 'University',
+                      prefixIcon: Icons.person,
+                      errorText: 'Enter your University',
+                    ),
+                    kTextFieldHeight,
+                    CustomTextFormField(
+                      textController: _departmentNameController,
+                      labelText: 'Department name',
+                      prefixIcon: Icons.language,
+                      errorText: 'Enter your Department name',
+                    ),
+                    kTextFieldHeight,
+                    CustomTextFormField(
+                      textController: _collegeRegNoController,
+                      labelText: 'College register number',
+                      prefixIcon: Icons.language,
+                      errorText: 'Enter your College register number',
+                    ),
+                    kTextFieldHeight,
+                    CustomTextFormField(
+                      textController: _collegeIdPicController,
+                      labelText: 'College ID pic',
+                      prefixIcon: Icons.language,
+                      errorText: 'Enter your College ID pic',
+                    ),
+                    kTextFieldHeight,
+                    CustomTextFormField(
+                      textController: _passwordController,
+                      labelText: 'Password',
+                      prefixIcon: Icons.lock,
+                      errorText: 'Enter your Password',
+                      obscureText: true,
+                    ),
+                    kTextFieldHeight,
+                    CustomElevatedButton(
+                      height: 50,
+                      width: 170,
+                      onPressed: () {
+                        context.read<AuthBloc>().add(
+                              StudentSignupEvent(
+                                student: Student(
+                                  firstName: student.firstName,
+                                  secondName: student.secondName,
+                                  email: student.email,
+                                  purpose: student.purpose,
+                                  country: student.country,
+                                  stateId: student.stateId,
+                                  districtId: student.districtId,
+                                  contactNo: student.contactNo ?? '123',
+                                  whatsappNo: student.whatsappNo ?? '123',
+                                  password: _passwordController.text,
+                                  clgIdPic: _collegeIdPicController.text,
+                                  clgRegNo: _collegeRegNoController.text,
+                                  college: _collegeController.text,
+                                  deptName: _departmentNameController.text,
+                                  university: _universityController.text,
+                                ),
                               ),
-                            ),
-                          );
-                    },
-                    backgroundColor: Colors.blue,
-                    label: "Create Account",
-                    labelColor: Colors.white,
-                    labelSize: 16,
-                  ),
-                  SizedBox(height: 30),
-                ],
+                            );
+                      },
+                      backgroundColor: Colors.blue,
+                      label: "Create Account",
+                      labelColor: Colors.white,
+                      labelSize: 16,
+                    ),
+                    SizedBox(height: 30),
+                  ],
+                ),
               ),
             ),
           ),
