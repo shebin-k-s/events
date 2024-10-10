@@ -1,6 +1,8 @@
 import 'package:events/application/authentication/auth_bloc.dart';
 import 'package:events/application/profile/profile_bloc.dart';
 import 'package:events/screens/authentication/new_design/login_screen.dart';
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,7 +27,11 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(primaryColor: Colors.white),
-        home: LoginScreen(),
+
+        // home: OtpVerificationScreen(),
+        // home: ProfileScreen(),
+
+        home: LoginScreen()
       ),
     );
   }
