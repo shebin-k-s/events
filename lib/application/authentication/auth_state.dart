@@ -14,6 +14,7 @@ class AuthLoading extends AuthState {}
 
 //login
 class LoginSuccess extends AuthActionState {}
+
 class LoginFailure extends AuthActionState {
   final String error;
   LoginFailure(this.error);
@@ -21,6 +22,7 @@ class LoginFailure extends AuthActionState {
 
 //signup
 class SignupSuccess extends AuthActionState {}
+
 class SignupFailure extends AuthActionState {
   final String error;
 
@@ -29,9 +31,9 @@ class SignupFailure extends AuthActionState {
 
 //otp verification
 class OtpVerificationSuccess extends AuthActionState {}
+
 class OtpVerificationFailure extends AuthActionState {
   final String error;
 
   OtpVerificationFailure(this.error);
 }
-

@@ -1,23 +1,183 @@
-import 'package:events/screens/widgets/custom_text.dart';
+import 'dart:developer';
+
+import 'package:events/application/profile/profile_bloc.dart';
+import 'package:events/core/constants/constants.dart';
+import 'package:events/screens/widgets/custom_elevated_button.dart';
+import 'package:events/screens/widgets/custom_text_formfield.dart';
 import 'package:flutter/material.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+
 class EditProfileScreen extends StatelessWidget {
-  const EditProfileScreen({super.key});
+  EditProfileScreen({super.key});
+
+  final _formKey = GlobalKey<FormState>();
+
+  final Map<String, TextEditingController> _controllers = {};
+  final Map<String, String> _initialValues = {};
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: 50),
-            CustomText(
-              text: "Edit profile",
-              fontSize: 18,
+    context.read<ProfileBloc>().add(FetchProfileInfoEvent());
+
+    return BlocListener<ProfileBloc, ProfileState>(
+      listenWhen: (previous, current) => current is ProfileActionState,
+      listener: (context, state) {
+        if (state is UpdateProfileSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Successfully updated"),
             ),
-          ],
+          );
+          _controllers.forEach((key, controller) {
+            _initialValues[key] = controller.text;
+          });
+        } else if (state is UpdateProfileFailure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Update failed"),
+            ),
+          );
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Edit Profile'),
+          backgroundColor: const Color.fromARGB(255, 229, 201, 146),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.only(
+            left: 24,
+            right: 24,
+          ),
+          child: Form(
+            key: _formKey,
+            child: BlocBuilder<ProfileBloc, ProfileState>(
+              buildWhen: (previous, current) =>
+                  current is ProfileInitial ||
+                  current is FetchProfileSuccessState,
+              builder: (context, state) {
+                if (state is ProfileInitial) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (state is FetchProfileSuccessState) {
+                  final profile = state.profileDataModel;
+                  final fields = {
+                    'first_name': profile.firstName,
+                    'second_name': profile.secondName,
+                    'email': profile.email,
+                    'purpose': profile.purpose,
+                    'college': profile.college,
+                    'university': profile.university,
+                    'department': profile.deptName,
+                    'admission_no': profile.admissionNo,
+                    'college_reg_no': profile.clgRegno,
+                    'company_name': profile.companyName,
+                    'company_id': profile.companyId,
+                    'company_location': profile.companyLocation,
+                    'country': profile.country.toString(),
+                    'state_id': profile.stateId.toString(),
+                    'district_id': profile.districtId.toString(),
+                    'contact_no': profile.contactNo,
+                    'whatsapp_no': profile.whatsappNo,
+                  };
+
+                  final nonNullFields = fields.entries
+                      .where(
+                        (entry) =>
+                            entry.value != null && entry.value!.isNotEmpty,
+                      )
+                      .toList();
+
+                  for (final entry in nonNullFields) {
+                    _controllers[entry.key] =
+                        TextEditingController(text: entry.value);
+                    _initialValues[entry.key] = entry.value!;
+                  }
+
+                  return ListView.separated(
+                    itemCount: nonNullFields.length + 3,
+                    itemBuilder: (context, index) {
+                      if (index == 0 || index == nonNullFields.length + 2) {
+                        return const SizedBox(height: 20);
+                      } else if (index <= nonNullFields.length) {
+                        final entry = nonNullFields[index - 1];
+                        final label = entry.key
+                            .split('_')
+                            .map((word) =>
+                                word[0].toUpperCase() + word.substring(1))
+                            .join(' ');
+                        return CustomTextFormField(
+                          textController: _controllers[entry.key]!,
+                          labelText: label,
+                          errorText: 'Please enter the $label',
+                          readOnly: label == "First Name" ? true : false,
+                        );
+                      } else {
+                        return BlocBuilder<ProfileBloc, ProfileState>(
+                          buildWhen: (previous, current) =>
+                              current is ProfileUpdating ||
+                              previous is ProfileUpdating,
+                          builder: (context, state) {
+                            final isLoading = state is ProfileUpdating;
+                            print('Save button rebuild ${state}');
+                            return CustomElevatedButton(
+                              height: 50,
+                              width: 150,
+                              onPressed: isLoading
+                                  ? () {}
+                                  : () => _submitForm(context),
+                              backgroundColor: Colors.blue,
+                              label: "Save",
+                              labelColor: Colors.white,
+                              labelSize: 16,
+                              childWidget: isLoading
+                                  ? LoadingAnimationWidget.staggeredDotsWave(
+                                      color: Colors.white,
+                                      size: 40,
+                                    )
+                                  : null,
+                            );
+                          },
+                        );
+                      }
+                    },
+                    separatorBuilder: (context, index) => kTextFieldHeight,
+                  );
+                } else {
+                  return const Text("err");
+                }
+              },
+            ),
+          ),
         ),
       ),
     );
+  }
+
+  void _submitForm(BuildContext context) {
+    FocusScope.of(context).unfocus();
+    final updateProfile = <String, String>{};
+
+    _controllers.forEach((key, controller) {
+      final currentValue = controller.text;
+      final initialValue = _initialValues[key];
+
+      if (currentValue != initialValue) {
+        updateProfile[key] = currentValue;
+      }
+    });
+
+    if (updateProfile.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("No changes"),
+        ),
+      );
+    } else {
+      context.read<ProfileBloc>().add(UpdateProfileEvent(updateProfile));
+    }
   }
 }

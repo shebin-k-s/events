@@ -1,7 +1,6 @@
 import 'package:events/screens/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 
-
 class CustomElevatedButton extends StatelessWidget {
   const CustomElevatedButton({
     super.key,
@@ -14,6 +13,7 @@ class CustomElevatedButton extends StatelessWidget {
     required this.labelColor,
     required this.labelSize,
     this.borderRadius = 10,
+    this.childWidget,
   });
   final double height;
   final double width;
@@ -24,6 +24,7 @@ class CustomElevatedButton extends StatelessWidget {
   final Color labelColor;
   final double labelSize;
   final double borderRadius;
+  final Widget? childWidget;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -44,12 +45,15 @@ class CustomElevatedButton extends StatelessWidget {
           children: [
             if (iconWidget != null) iconWidget!,
             if (iconWidget != null) const SizedBox(width: 5),
-            CustomText(
-              text: label,
-              fontSize: labelSize,
-              fontColor: labelColor,
-              fontweight: FontWeight.w600,
-            ),
+            if (childWidget != null)
+              childWidget!
+            else
+              CustomText(
+                text: label,
+                fontSize: labelSize,
+                fontColor: labelColor,
+                fontweight: FontWeight.w600,
+              ),
           ],
         ),
       ),

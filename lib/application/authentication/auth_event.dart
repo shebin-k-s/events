@@ -26,7 +26,7 @@ class EmployeeSignupEvent extends AuthEvent {
 }
 
 class OtherSignupEvent extends AuthEvent {
-  final Other other;
+  final User other;
 
   OtherSignupEvent({required this.other});
 }

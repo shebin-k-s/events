@@ -4,9 +4,9 @@ class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     super.key,
     required this.textController,
-    required this.hintText,
+    required this.labelText,
     this.prefixIcon,
-    this.prefixIconColor = Colors.grey,
+    this.prefixIconColor = Colors.blue,
     this.prefixIconSize,
     required this.errorText,
     this.focusedBorderColor = Colors.purple,
@@ -14,42 +14,56 @@ class CustomTextFormField extends StatelessWidget {
     this.borderColor = Colors.blue,
     this.borderRadius = 15,
     this.obscureText = false,
+    this.readOnly = false,
   });
 
   final TextEditingController textController;
-  final String hintText;
+  final String labelText;
   final IconData? prefixIcon;
   final Color? prefixIconColor;
   final double? prefixIconSize;
   final String errorText;
-  final Color? focusedBorderColor;
-  final Color? borderColor;
-  final double? borderWidth;
-  final double? borderRadius;
+  final Color focusedBorderColor;
+  final Color borderColor;
+  final double borderWidth;
+  final double borderRadius;
   final bool obscureText;
+  final bool readOnly;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: textController,
       obscureText: obscureText,
+      readOnly: readOnly,
       decoration: InputDecoration(
-        enabledBorder: OutlineInputBorder(
+        labelText: labelText,
+        floatingLabelBehavior: FloatingLabelBehavior.auto,
+        border: OutlineInputBorder(
           borderSide: BorderSide(
-            color: borderColor ?? Colors.grey,
-            width: borderWidth ?? 1,
+            color: borderColor,
+            width: borderWidth,
           ),
           borderRadius: BorderRadius.circular(
-            borderRadius ?? 4,
+            borderRadius,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: borderColor,
+            width: borderWidth,
+          ),
+          borderRadius: BorderRadius.circular(
+            borderRadius,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: focusedBorderColor ?? Colors.grey,
-            width: borderWidth ?? 1,
+            color: focusedBorderColor,
+            width: borderWidth,
           ),
           borderRadius: BorderRadius.circular(
-            borderRadius ?? 4,
+            borderRadius,
           ),
         ),
         prefixIcon: prefixIcon != null
@@ -59,7 +73,6 @@ class CustomTextFormField extends StatelessWidget {
                 size: prefixIconSize,
               )
             : null,
-        hintText: hintText,
       ),
       validator: (value) {
         if (value == null || value.isEmpty) {
