@@ -1,7 +1,7 @@
 import 'package:events/application/authentication/auth_bloc.dart';
 import 'package:events/core/constants/constants.dart';
 import 'dart:developer';
-import 'package:events/screens/authentication/otp_screen.dart';
+import 'package:events/screens/authentication/otp_verification_screen.dart';
 import 'package:events/screens/profile/profile_screen.dart';
 import 'package:events/screens/widgets/custom_elevated_button.dart';
 import 'package:events/screens/widgets/custom_text.dart';

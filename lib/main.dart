@@ -1,7 +1,7 @@
 import 'package:events/application/authentication/auth_bloc.dart';
 import 'package:events/application/profile/profile_bloc.dart';
 import 'package:events/screens/authentication/login_screen.dart';
-import 'package:events/screens/authentication/otp_screen.dart';
+import 'package:events/screens/authentication/otp_verification_screen.dart';
 import 'package:events/screens/profile/profile_screen.dart';
 
 import 'package:events/screens/splash/splash_screen.dart';
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         theme: ThemeData(primaryColor: Colors.white),
-        // home: OtpScreen(),
+        // home: OtpVerificationScreen(),
         // home: ProfileScreen(),
         home: LoginScreen(),
       ),
