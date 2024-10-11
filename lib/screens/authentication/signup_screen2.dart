@@ -3,6 +3,7 @@ import 'package:events/core/constants/constants.dart';
 import 'package:events/domain/user/user_model.dart';
 import 'package:events/screens/authentication/employee_signup_screen.dart';
 import 'package:events/screens/authentication/otp_screen.dart';
+import 'package:events/screens/authentication/otp_verification_screen.dart';
 import 'package:events/screens/authentication/student_signup_screen.dart';
 import 'package:events/screens/widgets/custom_elevated_button.dart';
 import 'package:events/screens/widgets/custom_text.dart';
@@ -36,7 +37,9 @@ class SignupScreen2 extends StatelessWidget {
         if (state is SignupSuccess) {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (ctx) => OtpScreen(),
+              builder: (ctx) => OtpVerificationScreen(
+                contact: "",
+              ),
             ),
           );
         } else if (state is SignupFailure) {
@@ -84,8 +87,8 @@ class SignupScreen2 extends StatelessWidget {
                         builder: (context, selectedAccountType, _) {
                           return Container(
                             width: double.infinity,
-                            padding:
-                                EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 4),
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: Colors.blue,
@@ -160,7 +163,8 @@ class SignupScreen2 extends StatelessWidget {
                                 } else if (selectedAccountType == "Employee") {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) => EmployeeSignupScreen(
+                                      builder: (context) =>
+                                          EmployeeSignupScreen(
                                         employee: Employee(
                                           firstName: user.firstName,
                                           secondName: user.secondName,
@@ -179,24 +183,24 @@ class SignupScreen2 extends StatelessWidget {
                                     ),
                                   );
                                 } else {
-                                  context.read<AuthBloc>().add(
-                                        OtherSignupEvent(
-                                          other: User(
-                                            firstName: user.firstName,
-                                            secondName: user.secondName,
-                                            email: user.email,
-                                            purpose: user.purpose,
-                                            country: user.country,
-                                            stateId: user.stateId,
-                                            districtId: user.districtId,
-                                            contactNo:
-                                                _contactNumberController.text,
-                                            whatsappNo:
-                                                _whatsappNumberController.text,
-                                            password: _passwordController.text,
-                                          ),
-                                        ),
-                                      );
+                                  // context.read<AuthBloc>().add(
+                                  //       OtherSignupEvent(
+                                  //         other: User(
+                                  //           firstName: user.firstName,
+                                  //           secondName: user.secondName,
+                                  //           email: user.email,
+                                  //           purpose: user.purpose,
+                                  //           country: user.country,
+                                  //           stateId: user.stateId,
+                                  //           districtId: user.districtId,
+                                  //           contactNo:
+                                  //               _contactNumberController.text,
+                                  //           whatsappNo:
+                                  //               _whatsappNumberController.text,
+                                  //           password: _passwordController.text,
+                                  //         ),
+                                  //       ),
+                                  //     );
                                 }
                               },
                               backgroundColor: Colors.blue,

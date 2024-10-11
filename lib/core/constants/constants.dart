@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 const kTextFieldHeight = SizedBox(height: 20);
 
-const String baseUrl = "http://192.168.42.24:8080";
+const String baseUrl = "http://192.168.29.101:8080";
 
 final List<Map> profileItems = [
   {

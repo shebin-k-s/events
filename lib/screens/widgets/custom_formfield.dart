@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class CustomFormField extends StatelessWidget {
@@ -30,17 +29,11 @@ class CustomFormField extends StatelessWidget {
         TextField(
           controller: controller,
           obscureText: hide,
-          
-        
           decoration: InputDecoration(
             hintText: hintText,
-            hintStyle: const TextStyle(
-              fontSize: 14,
-              color: Colors.grey
-            ),
-            fillColor: Colors.grey[200],
+            hintStyle: TextStyle(fontSize: 14, color: Colors.grey[400]),
+            fillColor: Colors.grey[50],
             filled: true,
-            
             border: OutlineInputBorder(
               borderSide: BorderSide.none,
               borderRadius: BorderRadius.circular(25.0),

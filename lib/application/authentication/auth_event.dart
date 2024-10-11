@@ -13,6 +13,18 @@ class LoginEvent extends AuthEvent {
   });
 }
 
+// class SignupEvent extends AuthEvent {
+//   final String countryCode;
+//   final String email;
+//   final String password;
+
+//   SignupEvent({
+//     required this.countryCode,
+//     required this.email,
+//     required this.password,
+//   });
+// }
+
 class StudentSignupEvent extends AuthEvent {
   final Student student;
 
@@ -26,9 +38,15 @@ class EmployeeSignupEvent extends AuthEvent {
 }
 
 class OtherSignupEvent extends AuthEvent {
-  final User other;
+  final String countryCode;
+  final String email;
+  final String password;
 
-  OtherSignupEvent({required this.other});
+  OtherSignupEvent({
+    required this.countryCode,
+    required this.email,
+    required this.password,
+  });
 }
 
 class OtpVerificationEvent extends AuthEvent {
@@ -40,3 +58,15 @@ class OtpVerificationEvent extends AuthEvent {
     required this.otp,
   });
 }
+
+
+class GoogleAuthEvent extends AuthEvent {
+  final String contactNo;
+  final String otp;
+
+  GoogleAuthEvent({
+    required this.contactNo,
+    required this.otp,
+  });
+}
+

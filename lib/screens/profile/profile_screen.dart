@@ -49,7 +49,7 @@ class ProfileScreen extends StatelessWidget {
                           fontweight: FontWeight.bold,
                         );
                       } else {
-                        return LoadingAnimationWidget.prograssiveDots(
+                        return LoadingAnimationWidget.progressiveDots(
                           color: Colors.purple,
                           size: 40
 
