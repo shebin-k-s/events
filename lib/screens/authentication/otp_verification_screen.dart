@@ -10,9 +10,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OtpVerificationScreen extends StatelessWidget {
-  OtpVerificationScreen({super.key});
+  OtpVerificationScreen({super.key, required this.contact});
 
   final _formkey = GlobalKey<FormState>();
+  final String contact;
   String otp = "";
 
   @override
@@ -125,7 +126,7 @@ class OtpVerificationScreen extends StatelessWidget {
       print("form is valid");
       context.read<AuthBloc>().add(
             OtpVerificationEvent(
-              contactNo: "",
+              contactNo: contact,
               otp: otp,
             ),
           );
