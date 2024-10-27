@@ -28,10 +28,10 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(primaryColor: Colors.white),
 
-        home: OtpVerificationScreen(contact: ""),
+        // home: OtpVerificationScreen(contact: ""),
         // home: ProfileScreen(),
 
-        // home: LoginScreen(),
+        home: LoginScreen(),
       ),
     );
   }
