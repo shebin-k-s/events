@@ -6,6 +6,8 @@ const kTextFieldHeight = SizedBox(height: 20);
 
 const String baseUrl = "http://192.168.29.101:8080";
 
+const Color bookingTextColor = Color(0xff495061);
+
 final List<Map> profileItems = [
   {
     "icon": Icons.edit,
