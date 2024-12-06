@@ -28,21 +28,22 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: ScreenUtilInit(
-        designSize: const Size(375, 812),
-        minTextAdapt: true,
-        splitScreenMode: true,
-        builder: (context, _) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(primaryColor: Colors.white),
-          
-            // home: OtpVerificationScreen(contact: ""),
-            // home: ProfileScreen(),
-            home: NavbarControlScreen(),
-            // home: LoginScreen(),
-          );
-        }
-      ),
+          // designSize: const Size(375, 812),
+          designSize: const Size(402, 861),
+          minTextAdapt: true,
+          splitScreenMode: true,
+          builder: (context, _) {
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+
+              theme: ThemeData(primaryColor: Colors.white, useMaterial3: false),
+
+              // home: OtpVerificationScreen(contact: ""),
+              // home: ProfileScreen(),
+              home: NavbarControlScreen(),
+              // home: LoginScreen(),
+            );
+          }),
     );
   }
 }

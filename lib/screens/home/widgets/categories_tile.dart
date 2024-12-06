@@ -1,16 +1,16 @@
-
 import 'package:events/core/constants/colors.dart';
 import 'package:events/screens/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CategoriesTile extends StatelessWidget {
-
   final String imageUrl;
   final String label;
 
   const CategoriesTile({
-    super.key, required this.imageUrl, required this.label,
+    super.key,
+    required this.imageUrl,
+    required this.label,
   });
 
   @override
@@ -23,8 +23,7 @@ class CategoriesTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(10.r),
       ),
       child: Padding(
-        padding:
-            EdgeInsets.symmetric(horizontal: 10.w, vertical: 12.w),
+        padding: EdgeInsets.symmetric(horizontal: 10.w),
         child: Row(
           children: [
             ClipRRect(
@@ -33,9 +32,8 @@ class CategoriesTile extends StatelessWidget {
                 height: 16.w,
                 width: 16.w,
                 child: Image(
-                  image: NetworkImage(
-imageUrl                  ),
-                  fit: BoxFit.fill,
+                  image: NetworkImage(imageUrl),
+                  fit: BoxFit.cover,
                 ),
               ),
             ),

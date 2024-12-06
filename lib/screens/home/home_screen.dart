@@ -2,6 +2,7 @@ import 'package:events/core/constants/colors.dart';
 import 'package:events/core/constants/constants.dart';
 import 'package:events/screens/home/widgets/categories_tile.dart';
 import 'package:events/screens/home/widgets/nearby_events_tile.dart';
+import 'package:events/screens/home/widgets/popular_events_tile.dart';
 import 'package:events/screens/navbar_control/widgets/custom_bottom_navbar.dart';
 import 'package:events/screens/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -16,18 +17,19 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         leading: Padding(
-          padding: const EdgeInsets.all(14.0),
+          padding: EdgeInsets.only(
+            left: 20.w,
+          ),
           child: SvgPicture.asset(
             "assets/icons/home/drawer.svg",
           ),
         ),
         title: Row(
           children: [
-            Icon(
-              Icons.map_rounded,
-              color: mainAppThemeColor,
-            ),
+            SvgPicture.asset("assets/icons/home/appbar_location.svg"),
+            SizedBox(width: 10.w),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -35,11 +37,21 @@ class HomeScreen extends StatelessWidget {
                   text: "You are in",
                   fontSize: 12,
                   fontColor: Colors.grey,
+                  height: 1.6,
                 ),
-                CustomText(
-                  text: "Kochi, Kerala",
-                  fontSize: 14,
-                  fontColor: Colors.grey,
+                Row(
+                  children: [
+                    CustomText(
+                      text: "Kochi, Kerala",
+                      fontSize: 14,
+                      fontColor: Colors.grey,
+                      height: 1.1,
+                    ),
+                    SizedBox(width: 9.w),
+                    SvgPicture.asset(
+                      "assets/icons/home/appbar_location_edit.svg",
+                    )
+                  ],
                 ),
               ],
             ),
@@ -108,7 +120,7 @@ class HomeScreen extends StatelessWidget {
               ),
               SizedBox(height: 20.h),
 
-              // Popular Events Header
+              // Popular Events
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: Row(
@@ -131,9 +143,21 @@ class HomeScreen extends StatelessWidget {
               ),
               SizedBox(height: 20.h),
 
-              // Popular Events List
               SizedBox(
-                height: 200.h, // Adjust height as needed
+                height: 242.w,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) => Padding(
+                    padding: index == 0
+                        ? EdgeInsets.only(left: 20.w, right: 5.w)
+                        : EdgeInsets.only(right: 5.w),
+                    child: PopularEventsTile(
+                      event: nearbyEvents[index],
+                    ),
+                  ),
+                  itemCount: nearbyEvents.length,
+                ),
               ),
               SizedBox(height: 20.h),
 
@@ -169,7 +193,7 @@ class HomeScreen extends StatelessWidget {
                     crossAxisCount: 2,
                     crossAxisSpacing: 10.w,
                     mainAxisSpacing: 10.w,
-                    childAspectRatio: 0.75,
+                    childAspectRatio: 175.w / 250.w,
                   ),
                   itemCount: nearbyEvents.length,
                   itemBuilder: (context, index) => NearbyEventsTile(
