@@ -44,6 +44,9 @@ dependencies:
   shared_preferences: ^2.3.2
   webview_flutter: ^4.10.0
   barcode_widget:
+  google_fonts:
+  input_quantity:
+  readmore:
 
 dev_dependencies:
   build_runner: ^2.4.12
