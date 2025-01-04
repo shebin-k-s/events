@@ -72,8 +72,18 @@ class GoogleAuthEvent extends AuthEvent {
 
 class SendForgotOtpEvent extends AuthEvent {
   final String userameOrEmail;
-  
+
   SendForgotOtpEvent({
     required this.userameOrEmail,
+  });
+}
+
+class VerifyForgotOtpEvent extends AuthEvent {
+  final String contact;
+  final int otp;
+
+  VerifyForgotOtpEvent({
+    required this.contact,
+    required this.otp,
   });
 }

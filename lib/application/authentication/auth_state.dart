@@ -48,14 +48,14 @@ class GoogleAuthFailure extends AuthActionState {
 }
 
 //send forgot otp
-class SendForgotOtpSuccess extends AuthActionState {
+class ForgotSuccess extends AuthActionState {
   final String message;
 
-  SendForgotOtpSuccess({required this.message});
+  ForgotSuccess({required this.message});
 }
 
-class SendForgotOtpFailure extends AuthActionState {
+class ForgotFailure extends AuthActionState {
   final String error;
 
-  SendForgotOtpFailure(this.error);
+  ForgotFailure({required this.error});
 }

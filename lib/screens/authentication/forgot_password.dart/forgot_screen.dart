@@ -24,7 +24,7 @@ class ForgotScreen extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listenWhen: (previous, current) => current is AuthActionState,
       listener: (context, state) {
-        if (state is SendForgotOtpSuccess) {
+        if (state is ForgotSuccess) {
           showTopSnackBar(
               context, state.message, Colors.green, Icons.check_circle);
           Navigator.of(context).push(
@@ -32,7 +32,7 @@ class ForgotScreen extends StatelessWidget {
               builder: (ctx) => OtpVerifyScreen(),
             ),
           );
-        } else if (state is SendForgotOtpFailure) {
+        } else if (state is ForgotFailure) {
           showTopSnackBar(context, state.error, Colors.red, Icons.cancel);
         }
       },
@@ -148,6 +148,12 @@ class ForgotScreen extends StatelessWidget {
                               userameOrEmail: usernameController.text,
                             ),
                           );
+                      //  context.read<AuthBloc>().add(
+                      //       VerifyForgotOtpEvent(
+                      //         contact: "shebin@gmail.com",
+                      //         otp:657740
+                      //       ),
+                      //     );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xff464196),

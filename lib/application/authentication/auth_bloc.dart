@@ -32,17 +32,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final String _loginUrl = "$baseUrl/customer/login";
   final String _signupUrl = "$baseUrl/customer/signup";
   final String forgotOtp = "$baseUrl/events/customer/forgot-password";
+  final String verifyOtp = "$baseUrl/events/customer/pass-verify-otp";
 
   final String _otpVerificationUrl = "$baseUrl/customer/validate-otp";
 
   AuthBloc() : super(AuthInitial()) {
     on<LoginEvent>(loginEvent);
-    on<SendForgotOtpEvent>(sendForgotOtpEvent);
     on<OtherSignupEvent>(signupEvent);
     on<StudentSignupEvent>(studentSignupEvent);
     on<EmployeeSignupEvent>(employeeSignupEvent);
     // on<OtherSignupEvent>(otherSignupEvent);
     on<OtpVerificationEvent>(otpVerificationEvent);
+
+    on<SendForgotOtpEvent>(sendForgotOtpEvent);
+    on<VerifyForgotOtpEvent>(verifyForgotOtpEvent);
   }
 
   FutureOr<void> loginEvent(LoginEvent event, Emitter<AuthState> emit) async {
@@ -184,7 +187,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         data: formData,
       );
       print(response);
-      await _handleResponse(response, emit, (message) => OtpVerificationSuccess(),
+      await _handleResponse(
+          response,
+          emit,
+          (message) => OtpVerificationSuccess(),
           (message) => OtpVerificationFailure(message));
     } on DioException catch (e) {
       emit(SignupFailure('An error occurred'));
@@ -201,7 +207,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final message = response.data['message'] ?? 'Unknown error occurred';
 
     if (status == true) {
-
       emit(successStateCreator(message));
     } else {
       emit(failureStateCreator(message));
@@ -223,11 +228,61 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         data: formData,
       );
       log(response.toString());
-      await _handleResponse(response, emit, (message) => SendForgotOtpSuccess(message: message),
-          (message) => SendForgotOtpFailure(message));
+      await _handleResponse(
+          response,
+          emit,
+          (message) => ForgotSuccess(message: message),
+          (message) => ForgotFailure(error: message));
     } on DioException catch (e) {
       log(e.toString());
-      emit(SendForgotOtpFailure('An error occurred'));
+      emit(ForgotFailure(error: 'An error occurred'));
+    }
+  }
+
+  FutureOr<void> verifyForgotOtpEvent(
+    VerifyForgotOtpEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    final formData = FormData.fromMap({
+      'otp': event.otp
+    });
+    try {
+      log("verify otp screen");
+      emit(AuthLoading());
+      log(verifyOtp);
+      final response = await _dio.post(verifyOtp,
+          queryParameters: {
+            'contact': event.contact,
+          },
+          data: formData);
+
+      log(response.toString());
+      bool status = false;
+      String message = "error";
+      if (response.data['errors'] != null &&
+          response.data['errors']['otp'][0] != null) {
+        message = response.data['errors']['otp'][0];
+      } else if (response.data['message'] != null) {
+        message = response.data['message'];
+      }
+      if (response.data['success'] != null) {
+        status = response.data['success'];
+      } else if (response.data['error'] != null) {
+        status = response.data['error'];
+      }
+      if (status == true) {
+        emit(ForgotSuccess(message: message));
+      } else {
+        emit(ForgotFailure(error: message));
+      }
+      // await _handleResponse(
+      //     response,
+      //     emit,
+      //     (message) => ForgotSuccess(message: message),
+      //     (message) => ForgotFailure(message));
+    } on DioException catch (e) {
+      log(e.toString());
+      emit(ForgotFailure(error: 'An error occurred'));
     }
   }
 }
