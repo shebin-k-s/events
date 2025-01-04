@@ -1,9 +1,11 @@
 import 'package:events/application/authentication/auth_bloc.dart';
 import 'package:events/application/profile/profile_bloc.dart';
+import 'package:events/screens/authentication/forgot_password.dart/forgot_screen.dart';
 import 'package:events/screens/authentication/new_design/login_screen.dart';
 import 'package:events/screens/authentication/otp_verification_screen.dart';
 import 'package:events/screens/home/home_screen.dart';
 import 'package:events/screens/navbar_control/navbar_control_screen.dart';
+import 'package:events/screens/splash/splash_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,7 +42,7 @@ class MyApp extends StatelessWidget {
 
               // home: OtpVerificationScreen(contact: ""),
               // home: ProfileScreen(),
-              home: NavbarControlScreen(),
+              home: ForgotScreen(),
               // home: LoginScreen(),
             );
           }),

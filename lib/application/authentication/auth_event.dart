@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'auth_bloc.dart';
 
 @immutable
@@ -59,7 +60,6 @@ class OtpVerificationEvent extends AuthEvent {
   });
 }
 
-
 class GoogleAuthEvent extends AuthEvent {
   final String contactNo;
   final String otp;
@@ -70,3 +70,10 @@ class GoogleAuthEvent extends AuthEvent {
   });
 }
 
+class SendForgotOtpEvent extends AuthEvent {
+  final String userameOrEmail;
+  
+  SendForgotOtpEvent({
+    required this.userameOrEmail,
+  });
+}

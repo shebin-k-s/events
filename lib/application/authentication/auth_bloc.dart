@@ -21,15 +21,23 @@ final cookieJar = CookieJar();
 final CookieManager cookieManager = CookieManager(cookieJar);
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final _dio = Dio();
+  final _dio = Dio(
+    BaseOptions(
+        headers: {'Content-Type': 'application/json; charset=UTF-8'},
+        responseType: ResponseType.json,
+        sendTimeout: const Duration(seconds: 10),
+        receiveTimeout: const Duration(seconds: 20)),
+  );
 
   final String _loginUrl = "$baseUrl/customer/login";
   final String _signupUrl = "$baseUrl/customer/signup";
-  final String _otpVerificationUrl =
-      "http://192.168.79.24:8080/customer/validate-otp";
+  final String forgotOtp = "$baseUrl/events/customer/forgot-password";
+
+  final String _otpVerificationUrl = "$baseUrl/customer/validate-otp";
 
   AuthBloc() : super(AuthInitial()) {
     on<LoginEvent>(loginEvent);
+    on<SendForgotOtpEvent>(sendForgotOtpEvent);
     on<OtherSignupEvent>(signupEvent);
     on<StudentSignupEvent>(studentSignupEvent);
     on<EmployeeSignupEvent>(employeeSignupEvent);
@@ -54,7 +62,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         data: formData,
       );
       log(response.toString());
-      await _handleResponse(response, emit, () {
+      await _handleResponse(response, emit, (message) {
         return LoginSuccess();
       }, (message) => LoginFailure(message));
     } on DioException catch (e) {
@@ -85,7 +93,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       log("ki");
       log(response.data.toString());
 
-      await _handleResponse(response, emit, () => SignupSuccess(),
+      await _handleResponse(response, emit, (message) => SignupSuccess(),
           (message) => SignupFailure(message));
     } on DioException catch (e) {
       log(e.toString());
@@ -108,7 +116,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       log("ki");
       log(response.data.toString());
 
-      await _handleResponse(response, emit, () => SignupSuccess(),
+      await _handleResponse(response, emit, (message) => SignupSuccess(),
           (message) => SignupFailure(message));
     } on DioException catch (e) {
       log(e.toString());
@@ -129,7 +137,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
       print(response.data);
 
-      await _handleResponse(response, emit, () => SignupSuccess(),
+      await _handleResponse(response, emit, (message) => SignupSuccess(),
           (message) => SignupFailure(message));
     } on DioException catch (e) {
       emit(SignupFailure('An error occurred'));
@@ -176,7 +184,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         data: formData,
       );
       print(response);
-      await _handleResponse(response, emit, () => OtpVerificationSuccess(),
+      await _handleResponse(response, emit, (message) => OtpVerificationSuccess(),
           (message) => OtpVerificationFailure(message));
     } on DioException catch (e) {
       emit(SignupFailure('An error occurred'));
@@ -186,18 +194,40 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _handleResponse(
     Response response,
     Emitter<AuthState> emit,
-    AuthState Function() successStateCreator,
+    AuthState Function(String) successStateCreator,
     AuthState Function(String) failureStateCreator,
   ) async {
-    final status = response.data['status'] ?? 'unknown';
+    final status = response.data['success'] ?? 'unknown';
     final message = response.data['message'] ?? 'Unknown error occurred';
 
-    if (status == 'success') {
-      final prefs = await SharedPreferences.getInstance();
+    if (status == true) {
 
-      emit(successStateCreator());
+      emit(successStateCreator(message));
     } else {
       emit(failureStateCreator(message));
+    }
+  }
+
+  FutureOr<void> sendForgotOtpEvent(
+    SendForgotOtpEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    final formData = FormData.fromMap({
+      'login': event.userameOrEmail,
+    });
+    try {
+      emit(AuthLoading());
+
+      final response = await _dio.post(
+        forgotOtp,
+        data: formData,
+      );
+      log(response.toString());
+      await _handleResponse(response, emit, (message) => SendForgotOtpSuccess(message: message),
+          (message) => SendForgotOtpFailure(message));
+    } on DioException catch (e) {
+      log(e.toString());
+      emit(SendForgotOtpFailure('An error occurred'));
     }
   }
 }

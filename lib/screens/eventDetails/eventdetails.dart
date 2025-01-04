@@ -1,9 +1,8 @@
-import 'package:events/screens/booking_screen/payment_screen.dart';
+import 'package:events/screens/eventDetails/bottomsheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:input_quantity/input_quantity.dart';
 import 'package:readmore/readmore.dart';
 
 class EventDetails extends StatelessWidget {
@@ -22,268 +21,14 @@ class EventDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Container(
-        width: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
-        child: FloatingActionButton.extended(
+      floatingActionButton: SizedBox.fromSize(
+        size: const Size(360, 60),
+        child: FloatingActionButton(
           onPressed: () {
-            showModalBottomSheet(
-              context: context,
-              isScrollControlled: true,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(25.0),
-                    topRight: Radius.circular(25.0)),
-              ),
-              builder: (context) {
-                return Padding(
-                  padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).viewInsets.bottom),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Padding(
-                          padding: const EdgeInsets.only(
-                            left: 25.0,
-                            right: 25,
-                            top: 30,
-                            bottom: 30,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Harmony Nights',
-                                        style: GoogleFonts.outfit(
-                                            color: Colors.black,
-                                            fontSize: 24.sp,
-                                            fontWeight: FontWeight.w700),
-                                      ),
-                                      const SizedBox(
-                                        height: 7,
-                                      ),
-                                      Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images/Group.svg'),
-                                          SizedBox(width: 7.w),
-                                          Text(
-                                            '06:30 PM, 17 Oct 2024',
-                                            style: GoogleFonts.outfit(
-                                                color: Colors.black,
-                                                fontSize: 11.sp,
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images/loc.svg'),
-                                          SizedBox(width: 7.w),
-                                          Text(
-                                            'Old Harbour Hotel, Fort Kochi',
-                                            style: GoogleFonts.outfit(
-                                                color: Colors.black,
-                                                fontSize: 11.sp,
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: SvgPicture.asset(
-                                          'assets/images/pop.svg'),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 21,
-                              ),
-                              Text(
-                                'Select Tickets',
-                                style: GoogleFonts.outfit(
-                                    color: Colors.black,
-                                    fontSize: 18.sp,
-                                    fontWeight: FontWeight.w700),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Column(
-                                children: [
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 5, bottom: 9),
-                                    child: Row(
-                                      children: [
-                                        SvgPicture.asset(
-                                            'assets/images/seats.svg'),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(
-                                          'VIP Seating',
-                                          style: GoogleFonts.outfit(
-                                              color: Colors.black,
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        const SizedBox(
-                                          width: 50,
-                                        ),
-                                        Text(
-                                          '25.00',
-                                          style: GoogleFonts.outfit(
-                                              color: Colors.black,
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        const SizedBox(width: 30),
-                                        InputQty(
-                                          maxVal: 100,
-                                          initVal: 1,
-                                          minVal: 0,
-                                          steps: 1,
-                                          onQtyChanged: (val) {},
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                  Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                          'assets/images/seats.svg'),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        'Balcony Seating',
-                                        style: GoogleFonts.outfit(
-                                            color: Colors.black,
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                      const SizedBox(width: 18),
-                                      Text(
-                                        '25.00',
-                                        style: GoogleFonts.outfit(
-                                            color: Colors.black,
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                      const SizedBox(width: 30),
-                                      InputQty(
-                                        maxVal: 100,
-                                        initVal: 1,
-                                        minVal: 0,
-                                        steps: 1,
-                                        onQtyChanged: (val) {},
-                                      ),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 15, bottom: 5),
-                                    child: Row(
-                                      children: [
-                                        SvgPicture.asset(
-                                            'assets/images/seats.svg'),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(
-                                          'Floor Seats',
-                                          style: GoogleFonts.outfit(
-                                              color: Colors.black,
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        const SizedBox(
-                                          width: 45,
-                                        ),
-                                        Text(
-                                          '25.00',
-                                          style: GoogleFonts.outfit(
-                                              color: Colors.black,
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        const SizedBox(width: 30),
-                                        InputQty(
-                                          maxVal: 100,
-                                          initVal: 1,
-                                          minVal: 0,
-                                          steps: 1,
-                                          onQtyChanged: (val) {},
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.of(context)
-                                          .push(MaterialPageRoute(
-                                        builder: (context) => PaymentScreen(),
-                                      ));
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          color: const Color.fromRGBO(
-                                              44, 100, 227, 1),
-                                          borderRadius:
-                                              BorderRadius.circular(35)),
-                                      width: 360,
-                                      height: 60,
-                                      child: Center(
-                                        child: Text(
-                                          'Book My Ticket',
-                                          style: GoogleFonts.outfit(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 14.sp),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
-                          )),
-                    ],
-                  ),
-                );
-              },
-            );
+            Helperwidgets.showCustomModalBottomSheet(context);
           },
           backgroundColor: Colors.blue[800],
-          label: Text(
+          child: Text(
             'Book Now',
             style: GoogleFonts.outfit(
                 color: Colors.white,
@@ -312,15 +57,12 @@ class EventDetails extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  GestureDetector(
-                    onTap: () => Navigator.of(context).pop(),
-                    child: const Padding(
-                      padding: EdgeInsets.only(left: 20, top: 30),
-                      child: CircleAvatar(
-                        backgroundColor: Colors.grey,
-                        child: Icon(Icons.arrow_back_ios_new_rounded,
-                            color: Colors.white),
-                      ),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 20, top: 30),
+                    child: CircleAvatar(
+                      backgroundColor: Colors.grey,
+                      child: Icon(Icons.arrow_back_ios_new_rounded,
+                          color: Colors.white),
                     ),
                   ),
                   Padding(
@@ -562,18 +304,55 @@ class EventDetails extends StatelessWidget {
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 5.h),
-                    child: GestureDetector(
-                        onTap: () {
-                          print('map');
-                        },
-                        child: Container(
-                            width: 360.w,
-                            height: 140.h,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                width: 360.w,
+                height: 140.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Stack(
+                  children: [
+                    // Background Image
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.asset(
+                        'assets/images/Mask group.jpg',
+                        fit: BoxFit.cover,
+                        width: 360.w,
+                        height: 140.h,
+                      ),
+                    ),
+
+                    // Positioned Text Button
+                    Positioned(
+                      bottom: 10.h, // Adjust bottom padding
+                      left: 0,
+                      right: 0,
+                      child: Center(
+                          child: GestureDetector(
+                            onTap: ()=>print('map'),
+                            child: Container(
+                                                    width: 90,
+                                                    height: 30,
+                                                    decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: Color.fromRGBO(92, 132, 225, 1)),
+                                                    child: Center(
+                            child: Text(
+                              'View On Map',
+                              style: GoogleFonts.outfit(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 9.sp,
+                                color: Colors.white,
+                              ),
                             ),
-                            child:
-                                Image.asset('assets/images/Mask group.jpg'))),
+                                                    ),
+                                                  ),
+                          )),
+                    ),
+                  ],
+                ),
+              )
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 10.h, left: 5.w),

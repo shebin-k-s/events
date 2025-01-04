@@ -47,6 +47,7 @@ dependencies:
   google_fonts:
   input_quantity:
   readmore:
+  top_snackbar_flutter:
 
 dev_dependencies:
   build_runner: ^2.4.12

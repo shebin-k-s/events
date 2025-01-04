@@ -38,7 +38,6 @@ class OtpVerificationFailure extends AuthActionState {
   OtpVerificationFailure(this.error);
 }
 
-
 //google authentication
 class GoogleAuth extends AuthActionState {}
 
@@ -46,4 +45,17 @@ class GoogleAuthFailure extends AuthActionState {
   final String error;
 
   GoogleAuthFailure(this.error);
+}
+
+//send forgot otp
+class SendForgotOtpSuccess extends AuthActionState {
+  final String message;
+
+  SendForgotOtpSuccess({required this.message});
+}
+
+class SendForgotOtpFailure extends AuthActionState {
+  final String error;
+
+  SendForgotOtpFailure(this.error);
 }
